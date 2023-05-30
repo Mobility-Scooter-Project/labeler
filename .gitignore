@@ -1,0 +1,7 @@
+.vscode
+data
+video
+__pycache__
+build
+dist
+*.zip

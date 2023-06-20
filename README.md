@@ -1,5 +1,6 @@
 # Labeler for video labeling
-
+## Download window executable in releases
+https://github.com/Mobility-Scooter-Project/labeler/releases/tag/v0.2.4
 ## Usage
 ### First Time
 ```

@@ -400,7 +400,6 @@ class LabelingScene(Scene):
         ).set_pos(pos)
         btn.on_click = lambda: self.pause()
         self.get("next").hide()
-        self.get("save").hide()
 
     def pause(self):
         self.playing = False
@@ -408,7 +407,6 @@ class LabelingScene(Scene):
         btn.show()
         btn.on_click = lambda: self.play()
         self.get("next").show()
-        self.get("save").show()
 
     def next(self):
         self.set_display()
@@ -429,6 +427,8 @@ class LabelingScene(Scene):
         arr = self.vc.next()
         if arr is not None:
             self.set_pixels(arr)
+        if self.vc.is_finished():
+            self.pause()
 
     def set_buffered_bar(self):
         self.vc.refresh_bound()
@@ -508,7 +508,6 @@ class LabelingScene(Scene):
                     else:
                         if '1' <= keyboard_inputs[i] <= '9':
                             label_index = int(keyboard_inputs[i]) - 1
-                            print(label_index)
                             if label_index < len(self.labels):
                                 self.current_label_index = label_index
 

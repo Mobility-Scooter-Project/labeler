@@ -133,6 +133,9 @@ class VideoContainer:
     def progress(self):
         return self.absolute_index / self.total
 
+    def is_finished(self):
+        return self.absolute_index == self.total - 1
+
     def mod(self, index):
         return index % self.size
 

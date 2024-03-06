@@ -10,3 +10,4 @@
 * press the rotate button to rotate 90 degree
 * press the mouse button and hold it will pause the video temperarily
 * video can be viewed frame by frame when paused, press the arrow icon to go to next frame
+<img width="845" alt="Screenshot 2024-03-05 205209" src="https://github.com/Mobility-Scooter-Project/labeler/assets/44049919/646be4fe-7d4e-40a0-a714-fac48513a5af">

@@ -19,8 +19,8 @@ const getColor = (value) => {
 function App() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(0.7);
-  const [timeStart] = useState(5);
-  const [fps] = useState(30);
+  const [timeStart] = useState(0);
+  const [fps, setFPS] = useState(30);
   const [videoSource, setVideoSource] = useState("");
   const controls = ["Play", "Time", "Progress", "Volume", "NextFrame"];
   const [values, setValues] = useState([0.97, 0.97, 3, 1, 2, 0.97, 1, 0.97, 2, 0.97, 3, 3]);

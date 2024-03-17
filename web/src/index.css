@@ -5,6 +5,9 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 code {
@@ -13,16 +16,52 @@ code {
 }
 
 .container {
+  margin-top: 100px;
+  /* for nav bar or title bar */
+  padding-top: 50px;
+  display: flex;
+  background-color: #586a81;
+  flex-direction: row;
   justify-content: center;
+  height: 600px;
+  width: 1200px;
+  border-radius: 30px;
+  overflow: hidden;
+}
+
+.mid-container {
+  justify-content: start;
   align-items: center;
   display: flex;
-  height: 100vh;
+  background-color: #aabdd4;
   flex-direction: column;
+  width: 800px;
+}
+
+.left-container {
+  display: flex;
+  background-color: #becfe5;
+  width: 200px;
+  height: inherit;
+  flex-direction: column;
+}
+
+.left-container h3 {
+  margin: 10px;
+}
+
+
+
+.right-container {
+  display: flex;
+  background-color: #7388a1;
+  height: inherit;
+  width: 200px;
 }
 
 .file-upload-button {
   margin: 20px;
-  background-color: #4c7faf; /* Green */
+  background-color: #4c7faf;
   border: none;
   color: white;
   padding: 10px 20px;
@@ -35,7 +74,7 @@ code {
 }
 
 .file-upload-button:hover {
-  background-color: #264871; /* Darker Green */
+  background-color: #264871;
 }
 
 .file-input {
@@ -45,4 +84,63 @@ code {
 .bar {
   width: 100%;
   height: 0.5rem;
+}
+
+.label-container {
+  display: flex;
+  background-color: #becfe5;
+  width: inherit;
+  height: inherit;
+  flex-direction: column;
+  align-items: center;
+}
+
+.label-item {
+  margin-top: 10px;
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  height: 30px;
+}
+
+.label-item input {
+  border-radius: 5px;
+  padding: 0;
+  padding-left: 5px;
+  font-size: 14px;
+  width: 140px;
+  border: none;
+  background-color: #6497dd;
+  height: inherit;
+}
+
+.label-item button {
+  border-radius: 5px;
+  font-size: 20px;
+  width: 30px;
+  border: none;
+  background-color: #ec7777;
+  height: inherit;
+}
+
+.label-item button:hover {
+  background-color: #c46363;
+  cursor: pointer;
+}
+
+.add-btn {
+  margin: 10px;
+  border-radius: 5px;
+  font-size: 20px;
+  width: 30px;
+  border: none;
+  background-color: #4c7faf;
+  height: 30px;
+}
+
+.add-btn:hover {
+  background-color: #264871;
+  cursor: pointer;
 }

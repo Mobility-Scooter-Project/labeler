@@ -20,13 +20,13 @@ export function VideoController({
   source,
   values,
   fps,
+  slowdown,
   onProgress,
 }) {
   const [volume, setVolume] = useState(0.7);
   const [isPlaying, setIsPlaying] = useState(false);
   const [timeStart] = useState(0);
   const controls = ["Play", "Time", "Progress", "Volume", "NextFrame"];
-
 
   const handleDuration = (duration) => {
     console.log("Duration: ", duration);
@@ -51,6 +51,7 @@ export function VideoController({
       return `linear-gradient(to right${gradient})`;
     };
     if (progressWrap) {
+      progressWrap.style.margin = 0;
       const bar = document.createElement('div');
       bar.className = 'bar';
       bar.style.background = createGradient();
@@ -61,10 +62,10 @@ export function VideoController({
     return () => {
       progressWrap?.querySelector('.bar')?.remove();
     };
-  }, [values]);
+  }, [values, source]);
 
   return (
-    <VideoPlayer
+    source&&<VideoPlayer
       key={source} // force remount when videoSource is changed
       url={source}
       controls={controls}

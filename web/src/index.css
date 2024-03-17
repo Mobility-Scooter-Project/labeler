@@ -15,6 +15,14 @@ code {
     monospace;
 }
 
+.next-frame {
+  display: none;
+}
+
+.react-video-controls .progress-wrap {
+  margin: 0;
+}
+
 .container {
   margin-top: 100px;
   /* for nav bar or title bar */
@@ -36,6 +44,11 @@ code {
   background-color: #aabdd4;
   flex-direction: column;
   width: 800px;
+}
+.mid-input-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .left-container {
@@ -59,6 +72,9 @@ code {
   width: 200px;
 }
 
+.right-container h3 {
+  margin: 10px;
+}
 .file-upload-button {
   margin: 20px;
   background-color: #4c7faf;
@@ -71,6 +87,7 @@ code {
   font-size: 16px;
   cursor: pointer;
   border-radius: 5px;
+  user-select: none;
 }
 
 .file-upload-button:hover {
@@ -123,6 +140,7 @@ code {
   border: none;
   background-color: #ec7777;
   height: inherit;
+  user-select: none;
 }
 
 .label-item button:hover {
@@ -138,6 +156,7 @@ code {
   border: none;
   background-color: #4c7faf;
   height: 30px;
+  user-select: none;
 }
 
 .add-btn:hover {

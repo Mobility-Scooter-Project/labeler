@@ -4,10 +4,12 @@ import LabelList from "./components/LabelList";
 
 
 function App() {
+  const [video, setVideo] = useState("");
   const [source, setSource] = useState("");
-  const [labels, setLabels] = useState(["ABC", "DEF"])
+  const [labels, setLabels] = useState(["ABC", "DEF"]);
   const [values, setValues] = useState([0.97, 0.97, 3, 1, 2, 0.97, 1, 0.97, 2, 0.97, 3, 3]);
   const [fps, setFPS] = useState(2); // has no effect on video playback, but rather the next-frame button
+  const [slowdown, setSlowdown] = useState(4);
   const handleKeyDown = (event) => {
     if (event.repeat) return; // Ignore keydown events when a key is being held down
     console.log('Key pressed:', event.key);
@@ -17,9 +19,10 @@ function App() {
   };
 
   const handleFileChange = (event) => {
+    if (event.target.files.length===0) return;
     const file = event.target.files[0];
     const objectURL = URL.createObjectURL(file);
-    console.log(objectURL);
+    setVideo(file.name);
     setSource(objectURL);
   };
 
@@ -78,6 +81,8 @@ function App() {
           fps={fps}
           onProgress={handleProgress}
         />
+        <div className="mid-input-container">
+        <h4>{video}</h4>
         <label htmlFor="file-upload" className="file-upload-button">
           Choose Video
         </label>
@@ -88,9 +93,10 @@ function App() {
           onChange={handleFileChange}
           accept="video/*"
         />
+        </div>
       </div>
       <div className="right-container">
-
+        <h3>Settings</h3>
       </div>
     </div>
   );

@@ -7,7 +7,7 @@
 - event handling
     - mouse
         - [x] safeguard for no video display
-        - [ ] click on labels on the left pane to select default label
+        - [x] click on labels on the left pane to select default label
     - keyboard
         - [ ] handle conflict between labeling and typing for labels (if they are on the same page)
         - behaviors for pressing labels:

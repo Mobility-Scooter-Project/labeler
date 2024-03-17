@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { VideoController } from "./components/VideoController";
+import { FaRegEdit } from "react-icons/fa";
 import LabelList from "./components/LabelList";
 
 
@@ -7,6 +8,8 @@ function App() {
   const [video, setVideo] = useState("");
   const [source, setSource] = useState("");
   const [labels, setLabels] = useState(["ABC", "DEF"]);
+  const [activeLabel, setActiveLabel] = useState(0);
+  const [editing, setEditing] = useState(false);
   const [values, setValues] = useState([0.97, 0.97, 3, 1, 2, 0.97, 1, 0.97, 2, 0.97, 3, 3]);
   const [fps, setFPS] = useState(2); // has no effect on video playback, but rather the next-frame button
   const [slowdown, setSlowdown] = useState(4);
@@ -19,7 +22,7 @@ function App() {
   };
 
   const handleFileChange = (event) => {
-    if (event.target.files.length===0) return;
+    if (event.target.files.length === 0) return;
     const file = event.target.files[0];
     const objectURL = URL.createObjectURL(file);
     setVideo(file.name);
@@ -44,6 +47,10 @@ function App() {
     setLabels((prevLabels) => prevLabels.filter((_, i) => i !== index));
   };
 
+  const handleClickLabel = (index) => {
+    setActiveLabel(index);
+  }
+
   React.useEffect(() => {
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('keyup', handleKeyUp);
@@ -64,13 +71,21 @@ function App() {
   return (
     <div className="container">
       <div className="left-container">
-        <h3>Labels</h3>
+        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+          <h3>Labels</h3>
+          <div className="edit-labels" onClick={() => setEditing(e => !e)}>
+            <FaRegEdit size={20} />
+          </div>
+        </div>
         <div className="left-inner-container">
           <LabelList
+            active={activeLabel}
+            editing={editing}
             labels={labels}
             onChangeLabel={handleChangeLabel}
             onAddLabel={handleAddLabel}
             onRemoveLabel={handleRemoveLabel}
+            onClickLabel={handleClickLabel}
           />
         </div>
       </div>
@@ -82,17 +97,17 @@ function App() {
           onProgress={handleProgress}
         />
         <div className="mid-input-container">
-        <h4>{video}</h4>
-        <label htmlFor="file-upload" className="file-upload-button">
-          Choose Video
-        </label>
-        <input
-          id="file-upload"
-          type="file"
-          className="file-input"
-          onChange={handleFileChange}
-          accept="video/*"
-        />
+          <h4>{video}</h4>
+          <label htmlFor="file-upload" className="file-upload-button">
+            Choose Video
+          </label>
+          <input
+            id="file-upload"
+            type="file"
+            className="file-input"
+            onChange={handleFileChange}
+            accept="video/*"
+          />
         </div>
       </div>
       <div className="right-container">

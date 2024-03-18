@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useMemo, useState } from "react";
 import { VideoController } from "./components/VideoController";
 import { FaRegEdit } from "react-icons/fa";
 import LabelList from "./components/LabelList";
-import {colors} from "./colors";
+import { colors } from "./colors";
 
 const colorLength = 400;
 
@@ -18,7 +18,7 @@ function App() {
   const [labels, setLabels] = useState(["Unlabeled", "Label 1", "Label 2", "Label 3", "Label 4"]);
   const [editing, setEditing] = useState(false);
   const [fps, setFPS] = useState(30); // has no effect on video playback, but rather the next-frame button
-  const [speed, setSpeed] = useState(1); 
+  const [speed, setSpeed] = useState(1);
   const [keyPressed, setKeyPressed] = useState('');
   const [colorList, setColorList] = useState(Array(colorLength).fill(colors[0]))
   const [activeLabel, setActiveLabel] = useState(0)
@@ -26,11 +26,11 @@ function App() {
   const defaultLabel = useRef(0);
   const keyRef = useRef(0);
   const labelList = useRef(Array(Math.ceil(fps * duration)).fill(0))
-  useEffect(()=> {
+  useEffect(() => {
     labelList.current = (Array(Math.ceil(fps * duration)).fill(0))
   }, [fps, duration])
   const time = useRef(0);
-  
+
 
   const handleKeyDown = (event) => {
     if (event.repeat) return; // Ignore keydown events when a key is being held down
@@ -70,16 +70,16 @@ function App() {
     const start = getIndex(time.current, fps);
     time.current = e.target.currentTime;
     const end = getIndex(time.current, fps);
-    const newLabel = keyRef.current===0? defaultLabel.current : keyRef.current;
-    for (let i = start ; i < end; i++) {
+    const newLabel = keyRef.current === 0 ? defaultLabel.current : keyRef.current;
+    for (let i = start; i < end; i++) {
       labelList.current[i] = newLabel;
     }
     setColorList(
       (prev) => {
         const next = [...prev]
-        const colorStart = Math.floor(start*colorLength/(labelList.current.length))
-        const colorEnd = Math.floor(end*colorLength/(labelList.current.length))
-        for (let i = colorStart ; i < colorEnd; i++) {
+        const colorStart = Math.floor(start * colorLength / (labelList.current.length))
+        const colorEnd = Math.floor(end * colorLength / (labelList.current.length))
+        for (let i = colorStart; i < colorEnd; i++) {
           next[i] = colors[newLabel];
         }
         return next;
@@ -126,10 +126,10 @@ function App() {
     }
     return !e;
   })
-  
+
   const handleSave = () => {
     function getCSVData(data) {
-      return data.map((e, i)=> [i/fps, e===0?"Unlabeled":labels[e]]);
+      return data.map((e, i) => [i / fps, e === 0 ? "Unlabeled" : labels[e]]);
     }
     function downloadCSV(data, filename) {
       function convertToCSV(data) {
@@ -180,7 +180,7 @@ function App() {
         <div className="left-inner-container">
           <LabelList
             selected={activeLabel}
-            active={keyPressed===''?activeLabel:keyRef.current}
+            active={keyPressed === '' ? activeLabel : keyRef.current}
             editing={editing}
             labels={labels}
             onChangeLabel={handleChangeLabel}
@@ -189,16 +189,17 @@ function App() {
             onClickLabel={handleClickLabel}
           />
         </div>
-        {keyPressed===''?
-        <div className="hint">
-          Press number key on the keyboard to temporarily set label
-        </div>
-        :
-        <h1 style={{marginLeft: '20px'}}>{keyPressed}</h1>
+        {keyPressed === '' ?
+          <div className="hint">
+            Click on any label to set as default<br />
+            Press number key on the keyboard to temporarily set label
+          </div>
+          :
+          <h1 style={{ marginLeft: '20px' }}>{keyPressed}</h1>
         }
       </div>
       <div className="mid-container">
-        {message!=''&&<div className="message">{message}</div>}
+        {message != '' && <div className="message">{message}</div>}
         <VideoController
           playing={playing}
           onPlay={handlePlay}
@@ -208,7 +209,7 @@ function App() {
           fps={fps}
           onProgress={handleProgress}
           barColors={colorList}
-          onDuration={d=>setDuration(d)}
+          onDuration={d => setDuration(d)}
           speed={speed}
         />
         <div className="mid-input-container">
@@ -223,7 +224,7 @@ function App() {
             accept="video/*"
           />
           <h4>{video}</h4>
-          {source!=''&&<button className="save-btn" onClick={handleSave}>Save labels</button>}
+          {source != '' && <button className="save-btn" onClick={handleSave}>Save labels</button>}
         </div>
       </div>
       <div className="right-container">

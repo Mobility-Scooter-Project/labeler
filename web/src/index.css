@@ -32,13 +32,19 @@ code {
   margin: 20px;
   top: 0;
   right: 0;
-  z-index: 1000; /* Ensure the alert is on top of other content */
+  z-index: 1000;
+  /* Ensure the alert is on top of other content */
   padding: 10px;
-  background-color: #ee827a; /* Red background color */
-  color: #fff; /* White text color */
-  padding: 10px 20px; /* Padding around the alert content */
-  border-radius: 5px; /* Rounded corners */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+  background-color: #ee827a;
+  /* Red background color */
+  color: #fff;
+  /* White text color */
+  padding: 10px 20px;
+  /* Padding around the alert content */
+  border-radius: 5px;
+  /* Rounded corners */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  /* Shadow for depth */
 }
 
 .container {
@@ -108,6 +114,7 @@ code {
   border-radius: 5px;
   user-select: none;
 }
+
 .file-upload-button:hover {
   background-color: #264871;
 }
@@ -127,6 +134,7 @@ code {
   border-radius: 5px;
   user-select: none;
 }
+
 .save-btn:hover {
   background-color: #264871;
 }
@@ -191,8 +199,6 @@ code {
   height: inherit;
 }
 
-
-
 .label-item .selected-label {
   border: 4px solid #797eb7;
 }
@@ -211,7 +217,7 @@ code {
 
 
 .label-item input:read-only:hover {
-  background-color: #2e4668;
+  filter: brightness(80%);
   cursor: pointer;
 }
 

@@ -56,7 +56,7 @@ export function VideoController({
   };
 
   return (
-    source && 
+    source &&
     <>
       <VideoPlayer
         key={`${source}${fps}`} // force remount when videoSource is changed or fps is changed
@@ -73,10 +73,10 @@ export function VideoController({
         onVolume={(value) => setVolume(value)}
         onProgress={onProgress}
         onDuration={onDuration}
-        onVideoPlayingComplete={(props) => onPause()&onComplete()}
+        onVideoPlayingComplete={(props) => onPause() & onComplete()}
         fps={fps}
       />
-      <div className="bar" style={{background: createGradient()}}></div>
+      <div className="bar" style={{ background: createGradient() }}></div>
     </>
   );
 }

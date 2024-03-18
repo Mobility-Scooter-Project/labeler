@@ -1,0 +1,257 @@
+* {
+  transition: 0.15s ease-in-out;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+.inactive {
+  display: none;
+}
+
+.next-frame {
+  display: none;
+}
+
+.message {
+  position: absolute;
+  margin: 20px;
+  top: 0;
+  right: 0;
+  z-index: 1000;
+  /* Ensure the alert is on top of other content */
+  padding: 10px;
+  background-color: #ee827a;
+  /* Red background color */
+  color: #fff;
+  /* White text color */
+  padding: 10px 20px;
+  /* Padding around the alert content */
+  border-radius: 5px;
+  /* Rounded corners */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  /* Shadow for depth */
+}
+
+.container {
+  margin-top: 100px;
+  /* for nav bar or title bar */
+  padding-top: 50px;
+  display: flex;
+  background-color: #586a81;
+  flex-direction: row;
+  justify-content: center;
+  height: 600px;
+  width: 1200px;
+  border-radius: 30px;
+  overflow: hidden;
+}
+
+.mid-container {
+  position: relative;
+  justify-content: start;
+  align-items: center;
+  display: flex;
+  background-color: #aabdd4;
+  flex-direction: column;
+  width: 800px;
+}
+
+.mid-input-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.left-container {
+  display: flex;
+  background-color: #becfe5;
+  width: 200px;
+  height: inherit;
+  flex-direction: column;
+}
+
+.left-container h3 {
+  margin: 10px;
+}
+
+.right-container {
+  display: flex;
+  background-color: #7388a1;
+  height: inherit;
+  width: 200px;
+}
+
+.right-container h3 {
+  margin: 10px;
+}
+
+.file-upload-button {
+  margin: 20px;
+  background-color: #4c7faf;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  user-select: none;
+}
+
+.file-upload-button:hover {
+  background-color: #264871;
+}
+
+.save-btn {
+  all: unset;
+  margin: 20px;
+  background-color: #4c7faf;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  user-select: none;
+}
+
+.save-btn:hover {
+  background-color: #264871;
+}
+
+
+
+.file-input {
+  display: none;
+}
+
+.bar {
+  width: 100%;
+  height: 0.5rem;
+}
+
+.label-container {
+  display: flex;
+  background-color: #becfe5;
+  width: inherit;
+  height: inherit;
+  flex-direction: column;
+  align-items: center;
+}
+
+.edit-labels {
+  border-radius: 5px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.edit-labels:hover {
+  background-color: #6a99d2;
+  cursor: pointer;
+}
+
+.label-item {
+  margin-top: 10px;
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  height: 30px;
+}
+
+.label-index {
+  margin: 5px;
+}
+
+
+.label-item input {
+  border-radius: 5px;
+  padding: 0;
+  padding-left: 5px;
+  font-size: 14px;
+  width: 120px;
+  border: none;
+  background-color: #6497dd;
+  height: inherit;
+}
+
+.label-item .selected-label {
+  border: 4px solid #797eb7;
+}
+
+.label-item .active-label {
+  border: 6px solid #9197dc;
+}
+
+.label-item input:read-only {
+  width: 160px;
+}
+
+.label-item input:read-only:focus {
+  outline: none;
+}
+
+
+.label-item input:read-only:hover {
+  filter: brightness(80%);
+  cursor: pointer;
+}
+
+.label-item button {
+  border-radius: 5px;
+  font-size: 20px;
+  width: 30px;
+  border: none;
+  background-color: #ec7777;
+  height: inherit;
+  user-select: none;
+}
+
+.label-item button:hover {
+  background-color: #c46363;
+  cursor: pointer;
+}
+
+.add-btn {
+  margin: 10px;
+  border-radius: 5px;
+  font-size: 20px;
+  width: 30px;
+  border: none;
+  background-color: #4c7faf;
+  height: 30px;
+  user-select: none;
+}
+
+.add-btn:hover {
+  background-color: #264871;
+  cursor: pointer;
+}
+
+.hint {
+  padding: 10px;
+}

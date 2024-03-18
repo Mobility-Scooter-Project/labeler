@@ -1,0 +1,23 @@
+- settings panes
+    - [x] left: labels
+    - [ ] right: core settings
+        - fps: [24, 30, 60]
+        - slowdown: [1x, 0.5x, 0.25x]
+    - [ ] use localstorage or electron app
+- event handling
+    - mouse
+        - [x] safeguard for no video display
+        - [x] click on labels on the left pane to select default label
+    - keyboard
+        - [x] handle conflict between labeling and typing for labels (if they are on the same page)
+        - behaviors for pressing labels:
+            - [x] pause video playing onPressEnter
+            - [x] trigger next frames with interval based on playback speed
+            - [x] resume video onPressExit
+- labeling
+    - [x] create color array with n elements, default to black/unlabeled -> c
+    - [x] create actual label array with fps selected -> l
+        - convertion when fps changed
+    - [x] project labels to color from l to c
+    - [x] button to save as csv(<video_name>.csv) with timestamps[second: float]
+

@@ -15,7 +15,7 @@ function LabelList({ selected, active, editing, labels, onAddLabel, onRemoveLabe
             readOnly={!editing}
             onClick={() => !editing && onClickLabel(index)}
           />
-          <button onClick={() => onRemoveLabel(index)} className={editing && index != 0 ? "" : "inactive"}>-</button>
+          <button onClick={() => onRemoveLabel(index)} className={editing && index !== 0 ? "" : "inactive"}>-</button>
         </div>
       ))}
       {editing && <button className="add-btn" onClick={onAddLabel}>+</button>}

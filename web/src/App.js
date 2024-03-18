@@ -34,7 +34,7 @@ function App() {
 
   const handleKeyDown = (event) => {
     if (event.repeat) return; // Ignore keydown events when a key is being held down
-    if (keyPressed != '') return;
+    if (keyPressed !== '') return;
     const s = String(event.key);
     if (!'0123456789'.includes(s)) return
     const d = parseInt(s, 10)
@@ -52,7 +52,7 @@ function App() {
     if (event.code === 'Space' && keyPressed === '') {
       return playing ? handlePause() : handlePlay();
     }
-    if (event.code != keyPressed) return;
+    if (event.code !== keyPressed) return;
     setKeyPressed('');
     keyRef.current = 0;
     setSpeed(1)
@@ -199,7 +199,7 @@ function App() {
         }
       </div>
       <div className="mid-container">
-        {message != '' && <div className="message">{message}</div>}
+        {message !== '' && <div className="message">{message}</div>}
         <VideoController
           playing={playing}
           onPlay={handlePlay}
@@ -224,7 +224,7 @@ function App() {
             accept="video/*"
           />
           <h4>{video}</h4>
-          {source != '' && <button className="save-btn" onClick={handleSave}>Save labels</button>}
+          {source !== '' && <button className="save-btn" onClick={handleSave}>Save labels</button>}
         </div>
       </div>
       <div className="right-container">

@@ -5,20 +5,31 @@ import LabelList from "./components/LabelList";
 
 
 function App() {
+  const [playing, setPlaying] = useState(false);
   const [video, setVideo] = useState("");
   const [source, setSource] = useState("");
   const [labels, setLabels] = useState(["ABC", "DEF"]);
   const [activeLabel, setActiveLabel] = useState(0);
   const [editing, setEditing] = useState(false);
   const [values, setValues] = useState([0.97, 0.97, 3, 1, 2, 0.97, 1, 0.97, 2, 0.97, 3, 3]);
-  const [fps, setFPS] = useState(2); // has no effect on video playback, but rather the next-frame button
+  const [fps, setFPS] = useState(30); // has no effect on video playback, but rather the next-frame button
   const [slowdown, setSlowdown] = useState(4);
+  const [keyPressed, setKeyPressed] = useState('');
   const handleKeyDown = (event) => {
     if (event.repeat) return; // Ignore keydown events when a key is being held down
-    console.log('Key pressed:', event.key);
+    if (keyPressed != '') return;
+    const s = String(event.key);
+    if (!'123456789'.includes(s)) return
+    setKeyPressed(event.code);
+    handlePause();
   };
   const handleKeyUp = (event) => {
-    console.log('Key released:', event.key);
+    if (event.code === 'Space' && keyPressed === '') {
+      return playing ? handlePause() : handlePlay();
+    }
+    if (event.code != keyPressed) return;
+    setKeyPressed('');
+    setPlaying(true)
   };
 
   const handleFileChange = (event) => {
@@ -51,6 +62,16 @@ function App() {
     setActiveLabel(index);
   }
 
+  const handlePlay = () => {
+    if (!editing && keyPressed === '') {
+      setPlaying(true);
+    }
+  }
+
+  const handlePause = () => {
+    setPlaying(false);
+  }
+
   React.useEffect(() => {
     if (editing) return;
     window.addEventListener('keydown', handleKeyDown);
@@ -59,15 +80,18 @@ function App() {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('keyup', handleKeyUp);
     };
-  }, [editing]);
+  }, [playing, editing, keyPressed]);
 
-  // React.useEffect(()=> {
-  //   const button = document.querySelector('.next-frame');
-  //   const i_id = setInterval(()=> {
-  //     button.click()
-  //   }, 333)
-  //   return () => clearInterval(i_id)
-  // }, [])
+  React.useEffect(() => {
+    const button = document.querySelector('.next-frame');
+    if (!button) return
+    const i_id = setInterval(() => {
+      if (keyPressed != '') {
+        button.click()
+      }
+    }, 1000 / fps * slowdown)
+    return () => clearInterval(i_id)
+  }, [source, keyPressed, fps, slowdown])
 
   return (
     <div className="container">
@@ -92,6 +116,9 @@ function App() {
       </div>
       <div className="mid-container">
         <VideoController
+          playing={playing}
+          onPlay={handlePlay}
+          onPause={handlePause}
           values={values}
           source={source}
           fps={fps}

@@ -17,6 +17,9 @@ const getColor = (value) => {
 };
 
 export function VideoController({
+  playing,
+  onPlay,
+  onPause,
   source,
   values,
   fps,
@@ -24,7 +27,6 @@ export function VideoController({
   onProgress,
 }) {
   const [volume, setVolume] = useState(0.7);
-  const [isPlaying, setIsPlaying] = useState(false);
   const [timeStart] = useState(0);
   const controls = ["Play", "Time", "Progress", "Volume", "NextFrame"];
 
@@ -35,6 +37,11 @@ export function VideoController({
   React.useEffect(() => {
     // Add progress bar when the component mounts
     const progressWrap = document.querySelector('.progress-wrap');
+    const volume = document.querySelector('.volume');
+    if (volume) {
+      volume.style.marginLeft = '12px';
+      volume.style.maxWidth = '16px';
+    }
 
     const createGradient = () => {
       let total = 0;
@@ -65,22 +72,22 @@ export function VideoController({
   }, [values, source]);
 
   return (
-    source&&<VideoPlayer
+    source && <VideoPlayer
       key={source} // force remount when videoSource is changed
       url={source}
       controls={controls}
-      isPlaying={isPlaying}
+      isPlaying={playing}
       volume={volume}
       loop={false}
       height={"auto"}
       width={"800px"}
       timeStart={timeStart}
-      onPlay={() => setIsPlaying(true)}
-      onPause={() => setIsPlaying(false)}
+      onPlay={onPlay}
+      onPause={onPause}
       onVolume={(value) => setVolume(value)}
       onProgress={onProgress}
       onDuration={handleDuration}
-      onVideoPlayingComplete={(props) => setIsPlaying(false)}
+      onVideoPlayingComplete={(props) => onPause()}
       fps={fps}
     />
   );

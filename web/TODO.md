@@ -11,9 +11,9 @@
     - keyboard
         - [x] handle conflict between labeling and typing for labels (if they are on the same page)
         - behaviors for pressing labels:
-            - [ ] pause video playing onPressEnter
-            - [ ] trigger next frames with interval based on playback speed
-            - [ ] resume video onPressExit
+            - [x] pause video playing onPressEnter
+            - [x] trigger next frames with interval based on playback speed
+            - [x] resume video onPressExit
 - labeling
     - [ ] detect number of pixels rendered for progress bar -> n
     - [ ] create color array with n elements, default to black/unlabeled -> c

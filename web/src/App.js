@@ -52,13 +52,14 @@ function App() {
   }
 
   React.useEffect(() => {
+    if (editing) return;
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('keyup', handleKeyUp);
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('keyup', handleKeyUp);
     };
-  }, []);
+  }, [editing]);
 
   // React.useEffect(()=> {
   //   const button = document.querySelector('.next-frame');

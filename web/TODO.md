@@ -9,7 +9,7 @@
         - [x] safeguard for no video display
         - [x] click on labels on the left pane to select default label
     - keyboard
-        - [ ] handle conflict between labeling and typing for labels (if they are on the same page)
+        - [x] handle conflict between labeling and typing for labels (if they are on the same page)
         - behaviors for pressing labels:
             - [ ] pause video playing onPressEnter
             - [ ] trigger next frames with interval based on playback speed

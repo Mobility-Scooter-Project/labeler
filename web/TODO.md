@@ -15,10 +15,9 @@
             - [x] trigger next frames with interval based on playback speed
             - [x] resume video onPressExit
 - labeling
-    - [ ] detect number of pixels rendered for progress bar -> n
-    - [ ] create color array with n elements, default to black/unlabeled -> c
-    - [ ] create actual label array with fps selected -> l
+    - [x] create color array with n elements, default to black/unlabeled -> c
+    - [x] create actual label array with fps selected -> l
         - convertion when fps changed
-    - [ ] project labels to color from l to c
-    - [ ] button to save as csv(<video_name>.csv) with timestamps[second: float]
+    - [x] project labels to color from l to c
+    - [x] button to save as csv(<video_name>.csv) with timestamps[second: float]
 

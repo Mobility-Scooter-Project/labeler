@@ -27,6 +27,20 @@ code {
   display: none;
 }
 
+.message {
+  position: absolute;
+  margin: 20px;
+  top: 0;
+  right: 0;
+  z-index: 1000; /* Ensure the alert is on top of other content */
+  padding: 10px;
+  background-color: #ee827a; /* Red background color */
+  color: #fff; /* White text color */
+  padding: 10px 20px; /* Padding around the alert content */
+  border-radius: 5px; /* Rounded corners */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+}
+
 .container {
   margin-top: 100px;
   /* for nav bar or title bar */
@@ -42,6 +56,7 @@ code {
 }
 
 .mid-container {
+  position: relative;
   justify-content: start;
   align-items: center;
   display: flex;
@@ -93,10 +108,30 @@ code {
   border-radius: 5px;
   user-select: none;
 }
-
 .file-upload-button:hover {
   background-color: #264871;
 }
+
+.save-btn {
+  all: unset;
+  margin: 20px;
+  background-color: #4c7faf;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  user-select: none;
+}
+.save-btn:hover {
+  background-color: #264871;
+}
+
+
 
 .file-input {
   display: none;
@@ -140,24 +175,34 @@ code {
   height: 30px;
 }
 
+.label-index {
+  margin: 5px;
+}
+
 
 .label-item input {
   border-radius: 5px;
   padding: 0;
   padding-left: 5px;
   font-size: 14px;
-  width: 140px;
+  width: 120px;
   border: none;
   background-color: #6497dd;
   height: inherit;
 }
 
+
+
+.label-item .selected-label {
+  border: 4px solid #797eb7;
+}
+
 .label-item .active-label {
-  border: 2px solid #363c7f;
+  border: 6px solid #9197dc;
 }
 
 .label-item input:read-only {
-  width: 180px;
+  width: 160px;
 }
 
 .label-item input:read-only:focus {
@@ -199,4 +244,8 @@ code {
 .add-btn:hover {
   background-color: #264871;
   cursor: pointer;
+}
+
+.hint {
+  padding: 10px;
 }

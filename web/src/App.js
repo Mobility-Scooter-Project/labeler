@@ -291,6 +291,7 @@ function App() {
       </div>
       <div className="right-container">
         <h3>Settings</h3>
+        <div className="hint">Under construction...</div>
       </div>
     </div>
   );

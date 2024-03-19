@@ -1,6 +1,10 @@
 import React, { useState, useRef } from "react";
 import VideoPlayer from "react-video-player-extended";
 
+const MAX_WIDTH = 800;
+const MAX_HEIGHT = 560;
+const RATIO = MAX_WIDTH / MAX_HEIGHT;
+
 export function VideoController({
   playing,
   onPlay,
@@ -17,6 +21,7 @@ export function VideoController({
   const [timeStart] = useState(0);
   const controls = ["Play", "Time", "Progress", "Volume", "NextFrame"];
   const videoRef = useRef(null);
+  const [ratio, setRatio] = useState(1);
 
   React.useEffect(() => {
     // Add progress bar when the component mounts
@@ -33,6 +38,7 @@ export function VideoController({
       progressWrap.appendChild(bar);
     }
     videoRef.current = document.querySelector(".react-video-player");
+    setRatio(2);
   }, [source]);
 
   React.useEffect(() => {
@@ -65,8 +71,8 @@ export function VideoController({
           isPlaying={playing}
           volume={volume}
           loop={false}
-          height={"auto"}
-          width={"800px"}
+          width={ratio < RATIO ? `${MAX_WIDTH}px` : "auto"}
+          height={ratio >= RATIO ? `${MAX_HEIGHT}px` : "auto"}
           timeStart={timeStart}
           onPlay={onPlay}
           onPause={onPause}

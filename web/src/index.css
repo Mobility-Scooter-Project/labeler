@@ -54,8 +54,8 @@ code {
   margin: 0 auto; /* Center horizontally if width is enough */
   min-width: 1200px; /* Maximum width of the div */
   max-width: 1200px;
-  margin-top: 80px;
-  height: 600px;
+  margin-top: 50px;
+  height: 660px;
   position: relative;
   padding-top: 50px; /* for nav bar or title bar */
   display: flex;
@@ -118,6 +118,9 @@ code {
   flex-direction: row;
   align-items: center;
 }
+.mid-input-container h4 {
+  margin: auto;
+}
 
 .left-container {
   display: flex;
@@ -133,6 +136,7 @@ code {
 
 .right-container {
   display: flex;
+  flex-direction: column;
   background-color: #7388a1;
   height: inherit;
   width: 200px;
@@ -143,11 +147,11 @@ code {
 }
 
 .file-upload-button {
-  margin: 20px;
+  margin: 12px 20px;
   background-color: #4c7faf;
   border: none;
   color: white;
-  padding: 10px 20px;
+  padding: 8px 20px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
@@ -163,11 +167,11 @@ code {
 
 .save-btn {
   all: unset;
-  margin: 20px;
+  margin: 12px 20px;
   background-color: #4c7faf;
   border: none;
   color: white;
-  padding: 10px 20px;
+  padding: 8px 20px;
   text-align: center;
   text-decoration: none;
   display: inline-block;

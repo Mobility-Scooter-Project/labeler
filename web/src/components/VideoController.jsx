@@ -2,8 +2,7 @@ import React, { useState, useRef } from "react";
 import VideoPlayer from "react-video-player-extended";
 
 const MAX_WIDTH = 800;
-const MAX_HEIGHT = 560;
-const RATIO = MAX_WIDTH / MAX_HEIGHT;
+const MAX_HEIGHT = 550;
 
 export function VideoController({
   playing,
@@ -21,7 +20,6 @@ export function VideoController({
   const [timeStart] = useState(0);
   const controls = ["Play", "Time", "Progress", "Volume", "NextFrame"];
   const videoRef = useRef(null);
-  const [ratio, setRatio] = useState(1);
 
   React.useEffect(() => {
     // Add progress bar when the component mounts
@@ -30,15 +28,6 @@ export function VideoController({
       volume.style.marginLeft = "12px";
       volume.style.maxWidth = "16px";
     }
-
-    const progressWrap = document.querySelector(".progress-wrap");
-    if (progressWrap) {
-      progressWrap.style.margin = 0;
-      const bar = document.querySelector(".bar");
-      progressWrap.appendChild(bar);
-    }
-    videoRef.current = document.querySelector(".react-video-player");
-    setRatio(2);
   }, [source]);
 
   React.useEffect(() => {
@@ -63,7 +52,7 @@ export function VideoController({
 
   return (
     source && (
-      <>
+      <div style={{position: 'relative'}}>
         <VideoPlayer
           key={`${source}${fps}`} // force remount when videoSource is changed or fps is changed
           url={source}
@@ -71,8 +60,8 @@ export function VideoController({
           isPlaying={playing}
           volume={volume}
           loop={false}
-          width={ratio < RATIO ? `${MAX_WIDTH}px` : "auto"}
-          height={ratio >= RATIO ? `${MAX_HEIGHT}px` : "auto"}
+          width={MAX_WIDTH}
+          height={MAX_HEIGHT}
           timeStart={timeStart}
           onPlay={onPlay}
           onPause={onPause}
@@ -81,9 +70,9 @@ export function VideoController({
           onDuration={onDuration}
           onVideoPlayingComplete={(props) => onPause() & onComplete()}
           fps={fps}
-        />
-        <div className="bar" style={{ background: createGradient() }}></div>
-      </>
+          />
+          <div className="bar" style={{ background: createGradient() }}></div>
+      </div>
     )
   );
 }

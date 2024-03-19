@@ -4,6 +4,7 @@ import { FaRegEdit } from "react-icons/fa";
 import LabelList from "./components/LabelList";
 import { colors } from "./colors";
 import ScooterIcon from "./components/ScooterIcon";
+import Selection from "./components/Selection";
 
 const colorLength = 400;
 
@@ -25,6 +26,9 @@ function App() {
   ]);
   const [editing, setEditing] = useState(false);
   const [fps, setFPS] = useState(30); // has no effect on video playback, but rather the next-frame button
+  const [rotation, setRotation] = useState("0°")
+  const [playbackSpeed, setPlaybackSpeed] = useState("1.0");
+  const [focusSpeed, setFocusSpeed] = useState("0.5");
   const [speed, setSpeed] = useState(1);
   const [keyPressed, setKeyPressed] = useState("");
   const [colorList, setColorList] = useState(
@@ -58,7 +62,7 @@ function App() {
     }
     setKeyPressed(event.code);
     keyRef.current = d;
-    setSpeed(0.5); // slowdown for temp labeling
+    setSpeed(focusSpeed); // slowdown for temp labeling
   };
 
   const handleKeyUp = (event) => {
@@ -68,7 +72,7 @@ function App() {
     if (event.code !== keyPressed) return;
     setKeyPressed("");
     keyRef.current = 0;
-    setSpeed(1);
+    setSpeed(playbackSpeed);
   };
 
   const handleFileChange = (event) => {
@@ -198,7 +202,7 @@ function App() {
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("keyup", handleKeyUp);
     };
-  }, [playing, editing, keyPressed, labels]);
+  }, [playing, editing, keyPressed, labels, playbackSpeed, focusSpeed]);
 
   React.useEffect(() => {
     const handleKeyDown = (event) => {
@@ -219,7 +223,7 @@ function App() {
         </div>
         <div className="title">LABELER</div>
       </div>
-      <div className="version">v0.1.1</div>
+      <div className="version">v0.1.2</div>
       <div className="left-container">
         <div
           style={{
@@ -228,7 +232,7 @@ function App() {
             alignItems: "center",
           }}
         >
-          <h3>Labels</h3>
+          <h3 style={{userSelect: 'none'}}>Labels</h3>
           <div className="edit-labels" onClick={handleSwitch}>
             <FaRegEdit size={20} />
           </div>
@@ -263,7 +267,7 @@ function App() {
           onPause={handlePause}
           colors={colorList}
           source={source}
-          fps={fps}
+          fps={parseInt(fps)}
           onProgress={handleProgress}
           barColors={colorList}
           onDuration={(d) => setDuration(d)}
@@ -290,8 +294,14 @@ function App() {
         </div>
       </div>
       <div className="right-container">
-        <h3>Settings</h3>
-        <div className="hint">Under construction...</div>
+        <div className="selections-container">
+          <h3 style={{userSelect: 'none'}}>Settings</h3>
+          <Selection key={1} name="FPS" defaultValue={fps} values={[24, 30, 60]} onSelect={setFPS} />
+          <Selection key={2} name="Rotation" defaultValue={rotation} values={["0°","90°", "180°", "270°"]} onSelect={setRotation}/>
+          <Selection key={3} name="Video Speed" defaultValue={playbackSpeed} values={["0.5", "1.0", "1.5", "2.0"]} onSelect={s=>setPlaybackSpeed(s)&setSpeed(s)}/>
+          <Selection key={4} name="Focus Speed" defaultValue={focusSpeed} values={["0.5", "1.0", "1.5", "2.0"]} onSelect={setFocusSpeed}/>
+        </div>
+        <div className="hint">Rotation is under construction...</div>
       </div>
     </div>
   );

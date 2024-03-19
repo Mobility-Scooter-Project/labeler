@@ -147,7 +147,7 @@ code {
 }
 
 .file-upload-button {
-  margin: 12px 20px;
+  margin: 20px;
   background-color: #4c7faf;
   border: none;
   color: white;
@@ -167,7 +167,7 @@ code {
 
 .save-btn {
   all: unset;
-  margin: 12px 20px;
+  margin: 20px;
   background-color: #4c7faf;
   border: none;
   color: white;
@@ -190,7 +190,10 @@ code {
 }
 
 .bar {
-  width: 100%;
+  position: absolute;
+  width: 639px;
+  top: 574px;
+  left: 114px;
   height: 0.5rem;
 }
 
@@ -296,4 +299,57 @@ code {
 
 .hint {
   padding: 5px 8px;
+  user-select: none;
+}
+
+select {
+  user-select: none;
+  appearance: none; /* Remove default styling */
+  -webkit-appearance: none; /* For Safari */
+  -moz-appearance: none; /* For Firefox */
+  border-radius: 5px;
+  border: none;
+  background-color: #6497dd;
+  padding: 8px 10px;
+  width: 48px;
+}
+
+/* Optional: style the focus state */
+select:focus {
+  outline: none;
+}
+
+select:hover {
+  cursor: pointer;
+  filter: brightness(80%);
+}
+
+.selections-container {
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+  background-color: #80abdc;
+  padding: 10px;
+  margin: 10px;
+}
+.selections-container h3{
+  margin: 0;
+}
+
+.selection-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.selection-item div{
+  user-select: none;
+}
+
+.selection-name {
+  width: 100px;
+  font-size: 15px;
+  font-family:'Courier New', Courier, monospace;
 }

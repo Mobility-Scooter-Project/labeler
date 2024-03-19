@@ -275,7 +275,7 @@ code {
 }
 
 .add-btn {
-  margin: 10px;
+  margin: 5px;
   border-radius: 5px;
   font-size: 20px;
   width: 30px;
@@ -291,5 +291,5 @@ code {
 }
 
 .hint {
-  padding: 10px;
+  padding: 5px 8px;
 }

@@ -114,13 +114,14 @@ function App() {
   };
 
   const handleAddLabel = () => {
-    if (labels.length === 9) {
-      return setMessage("Maximum of 9 labels allowed");
+    if (labels.length === 10) {
+      return setMessage("Maximum of 10 labels allowed");
     }
     setLabels((prev) => [...prev, ""]);
   };
 
   const handleRemoveLabel = (index) => {
+    setMessage("");
     setLabels((prev) => prev.filter((_, i) => i !== index));
   };
 

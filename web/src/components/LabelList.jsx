@@ -35,7 +35,7 @@ function LabelList({
             }
             value={value}
             onChange={(e) => onChangeLabel(index, e)}
-            readOnly={!editing}
+            readOnly={index === 0 || !editing}
             onClick={() => !editing && onClickLabel(index)}
           />
           <button

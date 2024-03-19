@@ -29,7 +29,6 @@ code {
   display: none;
 }
 
-
 .message {
   position: absolute;
   margin: 20px;
@@ -51,7 +50,7 @@ code {
 }
 
 .container {
-  display: table-cell; 
+  display: table-cell;
   margin: 0 auto; /* Center horizontally if width is enough */
   min-width: 1200px; /* Maximum width of the div */
   max-width: 1200px;
@@ -84,7 +83,7 @@ code {
 }
 
 .title {
-  font-family: 'Trebuchet MS', sans-serif;
+  font-family: "Trebuchet MS", sans-serif;
   margin-left: 10px;
   font-weight: bold;
   font-size: 24px;
@@ -97,10 +96,10 @@ code {
 
 .version {
   position: absolute;
-  font-family: 'Courier New', monospace;
+  font-family: "Courier New", monospace;
   font-size: 18px;
-  top:30px;
-  right:10px;
+  top: 30px;
+  right: 10px;
   color: rgb(224, 233, 230);
 }
 
@@ -182,8 +181,6 @@ code {
   background-color: #264871;
 }
 
-
-
 .file-input {
   display: none;
 }
@@ -230,7 +227,6 @@ code {
   margin: 5px;
 }
 
-
 .label-item input {
   border-radius: 5px;
   padding: 0;
@@ -257,7 +253,6 @@ code {
 .label-item input:read-only:focus {
   outline: none;
 }
-
 
 .label-item input:read-only:hover {
   filter: brightness(80%);

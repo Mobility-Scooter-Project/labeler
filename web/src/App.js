@@ -3,9 +3,7 @@ import { VideoController } from "./components/VideoController";
 import { FaRegEdit } from "react-icons/fa";
 import LabelList from "./components/LabelList";
 import { colors } from "./colors";
-import ScooterIcon from './components/ScooterIcon'
-
-
+import ScooterIcon from "./components/ScooterIcon";
 
 const colorLength = 400;
 
@@ -18,48 +16,59 @@ function App() {
   const [video, setVideo] = useState("");
   const [duration, setDuration] = useState(0);
   const [source, setSource] = useState("");
-  const [labels, setLabels] = useState(["Unlabeled", "Label 1", "Label 2", "Label 3", "Label 4"]);
+  const [labels, setLabels] = useState([
+    "Unlabeled",
+    "Label 1",
+    "Label 2",
+    "Label 3",
+    "Label 4",
+  ]);
   const [editing, setEditing] = useState(false);
   const [fps, setFPS] = useState(30); // has no effect on video playback, but rather the next-frame button
   const [speed, setSpeed] = useState(1);
-  const [keyPressed, setKeyPressed] = useState('');
-  const [colorList, setColorList] = useState(Array(colorLength).fill(colors[0]))
-  const [activeLabel, setActiveLabel] = useState(0)
-  const [message, setMessage] = useState('')
+  const [keyPressed, setKeyPressed] = useState("");
+  const [colorList, setColorList] = useState(
+    Array(colorLength).fill(colors[0])
+  );
+  const [activeLabel, setActiveLabel] = useState(0);
+  const [message, setMessage] = useState("");
   const defaultLabel = useRef(0);
   const keyRef = useRef(0);
-  const labelList = useRef(Array(Math.ceil(fps * duration)).fill(0))
+  const labelList = useRef(Array(Math.ceil(fps * duration)).fill(0));
   useEffect(() => {
-    labelList.current = (Array(Math.ceil(fps * duration)).fill(0))
-  }, [fps, duration])
+    labelList.current = Array(Math.ceil(fps * duration)).fill(0);
+  }, [fps, duration]);
 
   const time = useRef(0);
 
-
   const handleKeyDown = (event) => {
+    if (event.code === "Space" || event.keyCode === 32) {
+      // Prevent the default space key action (scrolling or clicking)
+      event.preventDefault();
+    }
     if (event.repeat) return; // Ignore keydown events when a key is being held down
-    if (keyPressed !== '') return;
+    if (keyPressed !== "") return;
     const s = String(event.key);
-    if (!'0123456789'.includes(s)) return
-    const d = parseInt(s, 10)
+    if (!"0123456789".includes(s)) return;
+    const d = parseInt(s, 10);
     if (d >= labels.length) {
       return setMessage(`Invalid label number pressed: <${d}>`);
-    }
-    else {
-      setMessage('')
+    } else {
+      setMessage("");
     }
     setKeyPressed(event.code);
     keyRef.current = d;
-    setSpeed(0.5) // slowdown for temp labeling
+    setSpeed(0.5); // slowdown for temp labeling
   };
+
   const handleKeyUp = (event) => {
-    if (event.code === 'Space' && keyPressed === '') {
+    if (event.code === "Space" && keyPressed === "") {
       return playing ? handlePause() : handlePlay();
     }
     if (event.code !== keyPressed) return;
-    setKeyPressed('');
+    setKeyPressed("");
     keyRef.current = 0;
-    setSpeed(1)
+    setSpeed(1);
   };
 
   const handleFileChange = (event) => {
@@ -74,24 +83,27 @@ function App() {
     for (let i = start; i < end; i++) {
       labelList.current[i] = label;
     }
-    setColorList(
-      (prev) => {
-        const next = [...prev]
-        const colorStart = Math.floor(start * colorLength / (labelList.current.length))
-        const colorEnd = Math.floor(end * colorLength / (labelList.current.length))
-        for (let i = colorStart; i < colorEnd; i++) {
-          next[i] = colors[label];
-        }
-        return next;
+    setColorList((prev) => {
+      const next = [...prev];
+      const colorStart = Math.floor(
+        (start * colorLength) / labelList.current.length
+      );
+      const colorEnd = Math.floor(
+        (end * colorLength) / labelList.current.length
+      );
+      for (let i = colorStart; i < colorEnd; i++) {
+        next[i] = colors[label];
       }
-    )
-  }
+      return next;
+    });
+  };
 
   const handleProgress = (e) => {
     const start = getIndex(time.current, fps);
     time.current = e.target.currentTime;
     const end = getIndex(time.current, fps);
-    const newLabel = keyRef.current === 0 ? defaultLabel.current : keyRef.current;
+    const newLabel =
+      keyRef.current === 0 ? defaultLabel.current : keyRef.current;
     updateLabels(start, end, newLabel);
   };
 
@@ -103,37 +115,38 @@ function App() {
 
   const handleAddLabel = () => {
     if (labels.length === 9) {
-      return setMessage('Maximum of 9 labels allowed');
+      return setMessage("Maximum of 9 labels allowed");
     }
-    setLabels((prev) => [...prev, '']);
+    setLabels((prev) => [...prev, ""]);
   };
 
   const handleRemoveLabel = (index) => {
-    setLabels((prev) => prev.filter((_, i) => i !== index))
+    setLabels((prev) => prev.filter((_, i) => i !== index));
   };
 
   const handleClickLabel = (index) => {
     setActiveLabel(index);
     defaultLabel.current = index;
-  }
+  };
 
   const handlePlay = () => {
-    if (!editing && keyPressed === '') {
+    if (!editing && keyPressed === "") {
       setPlaying(true);
     }
-  }
+  };
 
   const handlePause = () => {
     setPlaying(false);
-  }
+  };
 
-  const handleSwitch = () => setEditing(e => {
-    setMessage('');
-    if (!e) {
-      handlePause();
-    }
-    return !e;
-  })
+  const handleSwitch = () =>
+    setEditing((e) => {
+      setMessage("");
+      if (!e) {
+        handlePause();
+      }
+      return !e;
+    });
 
   const handleSave = () => {
     function getCSVData(data) {
@@ -141,21 +154,22 @@ function App() {
     }
     function downloadCSV(data, filename) {
       function convertToCSV(data) {
-        const rows = data.map(row => row.join(','));
-        return rows.join('\n');
+        const rows = data.map((row) => row.join(","));
+        return rows.join("\n");
       }
       const csv = convertToCSV(data);
-      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
 
-      if (navigator.msSaveBlob) { // For Internet Explorer
+      if (navigator.msSaveBlob) {
+        // For Internet Explorer
         navigator.msSaveBlob(blob, filename);
       } else {
-        const link = document.createElement('a');
+        const link = document.createElement("a");
         if (link.download !== undefined) {
           const url = URL.createObjectURL(blob);
-          link.setAttribute('href', url);
-          link.setAttribute('download', filename);
-          link.style.visibility = 'hidden';
+          link.setAttribute("href", url);
+          link.setAttribute("download", filename);
+          link.style.visibility = "hidden";
           document.body.appendChild(link);
           link.click();
           document.body.removeChild(link);
@@ -164,25 +178,37 @@ function App() {
       }
     }
     downloadCSV(getCSVData(labelList.current), `${video}.csv`);
-  }
+  };
 
   const handleComplete = () => {
-    handlePause()
+    handlePause();
     const start = getIndex(time.current, fps);
     const end = labelList.current.length;
-    const newLabel = keyRef.current === 0 ? defaultLabel.current : keyRef.current;
+    const newLabel =
+      keyRef.current === 0 ? defaultLabel.current : keyRef.current;
     updateLabels(start, end, newLabel);
-  }
+  };
 
   React.useEffect(() => {
     if (editing) return;
-    window.addEventListener('keydown', handleKeyDown);
-    window.addEventListener('keyup', handleKeyUp);
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("keyup", handleKeyUp);
     return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-      window.removeEventListener('keyup', handleKeyUp);
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("keyup", handleKeyUp);
     };
   }, [playing, editing, keyPressed, labels]);
+
+  React.useEffect(() => {
+    const handleKeyDown = (event) => {
+      // Check if the space key was pressed
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    // Cleanup function to remove the event listener
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []); // Empty dependency array means this effect will only run once, similar to componentDidMount
 
   return (
     <div className="container">
@@ -194,7 +220,13 @@ function App() {
       </div>
       <div className="version">v0.1.1</div>
       <div className="left-container">
-        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+          }}
+        >
           <h3>Labels</h3>
           <div className="edit-labels" onClick={handleSwitch}>
             <FaRegEdit size={20} />
@@ -203,7 +235,7 @@ function App() {
         <div className="left-inner-container">
           <LabelList
             selected={activeLabel}
-            active={keyPressed === '' ? activeLabel : keyRef.current}
+            active={keyPressed === "" ? activeLabel : keyRef.current}
             editing={editing}
             labels={labels}
             onChangeLabel={handleChangeLabel}
@@ -212,17 +244,18 @@ function App() {
             onClickLabel={handleClickLabel}
           />
         </div>
-        {keyPressed === '' ?
+        {keyPressed === "" ? (
           <div className="hint">
-            Click on any label to set as default<br />
+            Click on any label to set as default
+            <br />
             Press number key on the keyboard to temporarily set label
           </div>
-          :
-          <h1 style={{ marginLeft: '20px' }}>{keyPressed}</h1>
-        }
+        ) : (
+          <h1 style={{ marginLeft: "20px" }}>{keyPressed}</h1>
+        )}
       </div>
       <div className="mid-container">
-        {message !== '' && <div className="message">{message}</div>}
+        {message !== "" && <div className="message">{message}</div>}
         <VideoController
           playing={playing}
           onPlay={handlePlay}
@@ -232,7 +265,7 @@ function App() {
           fps={fps}
           onProgress={handleProgress}
           barColors={colorList}
-          onDuration={d => setDuration(d)}
+          onDuration={(d) => setDuration(d)}
           onComplete={handleComplete}
           speed={speed}
         />
@@ -248,7 +281,11 @@ function App() {
             accept="video/*"
           />
           <h4>{video}</h4>
-          {source !== '' && <button className="save-btn" onClick={handleSave}>Save labels</button>}
+          {source !== "" && (
+            <button className="save-btn" onClick={handleSave}>
+              Save labels
+            </button>
+          )}
         </div>
       </div>
       <div className="right-container">

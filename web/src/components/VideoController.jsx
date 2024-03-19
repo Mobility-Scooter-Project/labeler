@@ -20,31 +20,30 @@ export function VideoController({
 
   React.useEffect(() => {
     // Add progress bar when the component mounts
-    const volume = document.querySelector('.volume');
+    const volume = document.querySelector(".volume");
     if (volume) {
-      volume.style.marginLeft = '12px';
-      volume.style.maxWidth = '16px';
+      volume.style.marginLeft = "12px";
+      volume.style.maxWidth = "16px";
     }
 
-    const progressWrap = document.querySelector('.progress-wrap');
+    const progressWrap = document.querySelector(".progress-wrap");
     if (progressWrap) {
       progressWrap.style.margin = 0;
-      const bar = document.querySelector('.bar');
+      const bar = document.querySelector(".bar");
       progressWrap.appendChild(bar);
     }
-    videoRef.current = document.querySelector('.react-video-player');
+    videoRef.current = document.querySelector(".react-video-player");
   }, [source]);
-
 
   React.useEffect(() => {
     if (videoRef.current) {
-      videoRef.current.playbackRate = speed
+      videoRef.current.playbackRate = speed;
     }
-  }, [speed])
+  }, [speed]);
 
   const createGradient = () => {
     let total = 0;
-    let gradient = '';
+    let gradient = "";
 
     colors.forEach((color, index) => {
       const startPos = total;
@@ -57,27 +56,28 @@ export function VideoController({
   };
 
   return (
-    source &&
-    <>
-      <VideoPlayer
-        key={`${source}${fps}`} // force remount when videoSource is changed or fps is changed
-        url={source}
-        controls={controls}
-        isPlaying={playing}
-        volume={volume}
-        loop={false}
-        height={"auto"}
-        width={"800px"}
-        timeStart={timeStart}
-        onPlay={onPlay}
-        onPause={onPause}
-        onVolume={(value) => setVolume(value)}
-        onProgress={onProgress}
-        onDuration={onDuration}
-        onVideoPlayingComplete={(props) => onPause() & onComplete()}
-        fps={fps}
-      />
-      <div className="bar" style={{ background: createGradient() }}></div>
-    </>
+    source && (
+      <>
+        <VideoPlayer
+          key={`${source}${fps}`} // force remount when videoSource is changed or fps is changed
+          url={source}
+          controls={controls}
+          isPlaying={playing}
+          volume={volume}
+          loop={false}
+          height={"auto"}
+          width={"800px"}
+          timeStart={timeStart}
+          onPlay={onPlay}
+          onPause={onPause}
+          onVolume={(value) => setVolume(value)}
+          onProgress={onProgress}
+          onDuration={onDuration}
+          onVideoPlayingComplete={(props) => onPause() & onComplete()}
+          fps={fps}
+        />
+        <div className="bar" style={{ background: createGradient() }}></div>
+      </>
+    )
   );
 }

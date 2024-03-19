@@ -28,6 +28,10 @@ export function VideoController({
       volume.style.marginLeft = "12px";
       volume.style.maxWidth = "16px";
     }
+    videoRef.current = document.querySelector(".react-video-player");
+    if (videoRef.current) {
+      videoRef.current.playbackRate = speed;
+    }
   }, [source]);
 
   React.useEffect(() => {
@@ -52,7 +56,7 @@ export function VideoController({
 
   return (
     source && (
-      <div style={{position: 'relative'}}>
+      <div style={{ position: "relative" }}>
         <VideoPlayer
           key={`${source}${fps}`} // force remount when videoSource is changed or fps is changed
           url={source}
@@ -70,8 +74,8 @@ export function VideoController({
           onDuration={onDuration}
           onVideoPlayingComplete={(props) => onPause() & onComplete()}
           fps={fps}
-          />
-          <div className="bar" style={{ background: createGradient() }}></div>
+        />
+        <div className="bar" style={{ background: createGradient() }}></div>
       </div>
     )
   );

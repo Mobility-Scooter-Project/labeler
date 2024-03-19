@@ -26,7 +26,7 @@ function App() {
   ]);
   const [editing, setEditing] = useState(false);
   const [fps, setFPS] = useState(30); // has no effect on video playback, but rather the next-frame button
-  const [rotation, setRotation] = useState("0°")
+  const [rotation, setRotation] = useState("0°");
   const [playbackSpeed, setPlaybackSpeed] = useState("1.0");
   const [focusSpeed, setFocusSpeed] = useState("0.5");
   const [speed, setSpeed] = useState(1);
@@ -62,7 +62,7 @@ function App() {
     }
     setKeyPressed(event.code);
     keyRef.current = d;
-    setSpeed(focusSpeed); // slowdown for temp labeling
+    setSpeed(parseFloat(focusSpeed)); // slowdown for temp labeling
   };
 
   const handleKeyUp = (event) => {
@@ -72,7 +72,7 @@ function App() {
     if (event.code !== keyPressed) return;
     setKeyPressed("");
     keyRef.current = 0;
-    setSpeed(playbackSpeed);
+    setSpeed(parseFloat(playbackSpeed));
   };
 
   const handleFileChange = (event) => {
@@ -232,7 +232,7 @@ function App() {
             alignItems: "center",
           }}
         >
-          <h3 style={{userSelect: 'none'}}>Labels</h3>
+          <h3 style={{ userSelect: "none" }}>Labels</h3>
           <div className="edit-labels" onClick={handleSwitch}>
             <FaRegEdit size={20} />
           </div>
@@ -295,11 +295,35 @@ function App() {
       </div>
       <div className="right-container">
         <div className="selections-container">
-          <h3 style={{userSelect: 'none'}}>Settings</h3>
-          <Selection key={1} name="FPS" defaultValue={fps} values={[24, 30, 60]} onSelect={setFPS} />
-          <Selection key={2} name="Rotation" defaultValue={rotation} values={["0°","90°", "180°", "270°"]} onSelect={setRotation}/>
-          <Selection key={3} name="Video Speed" defaultValue={playbackSpeed} values={["0.5", "1.0", "1.5", "2.0"]} onSelect={s=>setPlaybackSpeed(s)&setSpeed(s)}/>
-          <Selection key={4} name="Focus Speed" defaultValue={focusSpeed} values={["0.5", "1.0", "1.5", "2.0"]} onSelect={setFocusSpeed}/>
+          <h3 style={{ userSelect: "none" }}>Settings</h3>
+          <Selection
+            key={1}
+            name="FPS"
+            defaultValue={fps}
+            values={[24, 30, 60]}
+            onSelect={setFPS}
+          />
+          <Selection
+            key={2}
+            name="Rotation"
+            defaultValue={rotation}
+            values={["0°", "90°", "180°", "270°"]}
+            onSelect={setRotation}
+          />
+          <Selection
+            key={3}
+            name="Video Speed"
+            defaultValue={playbackSpeed}
+            values={["0.5", "1.0", "1.5", "2.0"]}
+            onSelect={(s) => setPlaybackSpeed(s) & setSpeed(parseFloat(s))}
+          />
+          <Selection
+            key={4}
+            name="Focus Speed"
+            defaultValue={focusSpeed}
+            values={["0.5", "1.0", "1.5", "2.0"]}
+            onSelect={setFocusSpeed}
+          />
         </div>
         <div className="hint">Rotation is under construction...</div>
       </div>

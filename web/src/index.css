@@ -332,7 +332,7 @@ select:hover {
   padding: 10px;
   margin: 10px;
 }
-.selections-container h3{
+.selections-container h3 {
   margin: 0;
 }
 
@@ -344,12 +344,12 @@ select:hover {
   margin-top: 10px;
 }
 
-.selection-item div{
+.selection-item div {
   user-select: none;
 }
 
 .selection-name {
   width: 100px;
   font-size: 15px;
-  font-family:'Courier New', Courier, monospace;
+  font-family: "Courier New", Courier, monospace;
 }

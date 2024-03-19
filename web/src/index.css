@@ -3,15 +3,17 @@
 }
 
 body {
-  margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  background-color: #282c34;
+  margin: 0; /* Remove default margin */
+  padding: 0; /* Remove default padding */
+  min-height: 100vh; /* Full viewport height */
+  display: table; /* Allows centering without flex */
+  width: 100%;
 }
 
 code {
@@ -26,6 +28,7 @@ code {
 .next-frame {
   display: none;
 }
+
 
 .message {
   position: absolute;
@@ -48,17 +51,57 @@ code {
 }
 
 .container {
-  margin-top: 100px;
-  /* for nav bar or title bar */
-  padding-top: 50px;
+  display: table-cell; 
+  margin: 0 auto; /* Center horizontally if width is enough */
+  min-width: 1200px; /* Maximum width of the div */
+  max-width: 1200px;
+  margin-top: 80px;
+  height: 600px;
+  position: relative;
+  padding-top: 50px; /* for nav bar or title bar */
   display: flex;
   background-color: #586a81;
   flex-direction: row;
   justify-content: center;
-  height: 600px;
-  width: 1200px;
   border-radius: 30px;
   overflow: hidden;
+  box-shadow: 0px 0px 10px 5px #586a81;
+}
+
+.scooter-icon {
+  width: 36px;
+  height: 36px;
+}
+
+.title-container {
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  top: 10px;
+  left: 16px;
+  align-items: end;
+}
+
+.title {
+  font-family: 'Trebuchet MS', sans-serif;
+  margin-left: 10px;
+  font-weight: bold;
+  font-size: 24px;
+  color: rgb(224, 233, 230);
+}
+.time {
+  min-width: 60px;
+  max-width: 60px;
+}
+
+.version {
+  position: absolute;
+  font-family: 'Courier New', monospace;
+  font-size: 18px;
+  top:30px;
+  right:10px;
+  color: rgb(224, 233, 230);
 }
 
 .mid-container {

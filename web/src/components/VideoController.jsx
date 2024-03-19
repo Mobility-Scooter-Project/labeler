@@ -35,6 +35,7 @@ export function VideoController({
     videoRef.current = document.querySelector('.react-video-player');
   }, [source]);
 
+
   React.useEffect(() => {
     if (videoRef.current) {
       videoRef.current.playbackRate = speed

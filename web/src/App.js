@@ -3,6 +3,9 @@ import { VideoController } from "./components/VideoController";
 import { FaRegEdit } from "react-icons/fa";
 import LabelList from "./components/LabelList";
 import { colors } from "./colors";
+import ScooterIcon from './components/ScooterIcon'
+
+
 
 const colorLength = 400;
 
@@ -29,6 +32,7 @@ function App() {
   useEffect(() => {
     labelList.current = (Array(Math.ceil(fps * duration)).fill(0))
   }, [fps, duration])
+
   const time = useRef(0);
 
 
@@ -66,13 +70,9 @@ function App() {
     setSource(objectURL);
   };
 
-  const handleProgress = (e) => {
-    const start = getIndex(time.current, fps);
-    time.current = e.target.currentTime;
-    const end = getIndex(time.current, fps);
-    const newLabel = keyRef.current === 0 ? defaultLabel.current : keyRef.current;
+  const updateLabels = (start, end, label) => {
     for (let i = start; i < end; i++) {
-      labelList.current[i] = newLabel;
+      labelList.current[i] = label;
     }
     setColorList(
       (prev) => {
@@ -80,11 +80,19 @@ function App() {
         const colorStart = Math.floor(start * colorLength / (labelList.current.length))
         const colorEnd = Math.floor(end * colorLength / (labelList.current.length))
         for (let i = colorStart; i < colorEnd; i++) {
-          next[i] = colors[newLabel];
+          next[i] = colors[label];
         }
         return next;
       }
     )
+  }
+
+  const handleProgress = (e) => {
+    const start = getIndex(time.current, fps);
+    time.current = e.target.currentTime;
+    const end = getIndex(time.current, fps);
+    const newLabel = keyRef.current === 0 ? defaultLabel.current : keyRef.current;
+    updateLabels(start, end, newLabel);
   };
 
   const handleChangeLabel = (index, event) => {
@@ -158,6 +166,14 @@ function App() {
     downloadCSV(getCSVData(labelList.current), `${video}.csv`);
   }
 
+  const handleComplete = () => {
+    handlePause()
+    const start = getIndex(time.current, fps);
+    const end = labelList.current.length;
+    const newLabel = keyRef.current === 0 ? defaultLabel.current : keyRef.current;
+    updateLabels(start, end, newLabel);
+  }
+
   React.useEffect(() => {
     if (editing) return;
     window.addEventListener('keydown', handleKeyDown);
@@ -170,6 +186,13 @@ function App() {
 
   return (
     <div className="container">
+      <div className="title-container">
+        <div className="scooter-icon">
+          <ScooterIcon />
+        </div>
+        <div className="title">LABELER</div>
+      </div>
+      <div className="version">v0.1.1</div>
       <div className="left-container">
         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
           <h3>Labels</h3>
@@ -210,6 +233,7 @@ function App() {
           onProgress={handleProgress}
           barColors={colorList}
           onDuration={d => setDuration(d)}
+          onComplete={handleComplete}
           speed={speed}
         />
         <div className="mid-input-container">

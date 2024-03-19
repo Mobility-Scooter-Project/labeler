@@ -326,6 +326,7 @@ function App() {
           />
         </div>
         <div className="hint">Rotation is under construction...</div>
+        <div className="hint">Don't refresh midway, no cache yet</div>
       </div>
     </div>
   );

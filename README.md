@@ -1,6 +1,8 @@
 # Labeler for video labeling
 ## Web Version
 https://mobility-scooter-project.github.io/labeler/
+- setup by `npm install` in `./web` folder
+- `npm start` in `./web` folder to start development
 - merges to `main` automatically triggers deploy workflow.
 
 ## Download window executable in releases

@@ -240,7 +240,7 @@ function App() {
         <div className="left-inner-container">
           <LabelList
             selected={activeLabel}
-            active={(keyPressed === "" || keyRef.current !== -1) ? activeLabel : keyRef.current}
+            active={(keyPressed === "" || keyRef.current === -1) ? activeLabel : keyRef.current}
             editing={editing}
             labels={labels}
             onChangeLabel={handleChangeLabel}

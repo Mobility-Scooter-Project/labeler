@@ -30,6 +30,11 @@ jobs:
       env:
         CI: false
 
+    - name: Configure Git
+      run: |
+        git config user.name ${{ secrets.NAME }}
+        git config user.email ${{ secrets.EMAIL }}
+
     - name: Deploy
       run: npx gh-pages -d build -t true --repo https://${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}
       env:

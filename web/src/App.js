@@ -223,7 +223,7 @@ function App() {
         </div>
         <div className="title">LABELER</div>
       </div>
-      <div className="version">v0.1.2</div>
+      <div className="version">v0.1.3</div>
       <div className="left-container">
         <div
           style={{

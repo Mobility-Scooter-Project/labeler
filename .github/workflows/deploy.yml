@@ -28,4 +28,5 @@ jobs:
       run: npm run deploy
       env:
         NODE_ENV: production
+        CI: false
       working-directory: ./web

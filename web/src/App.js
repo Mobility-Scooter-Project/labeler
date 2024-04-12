@@ -37,7 +37,7 @@ function App() {
   const [activeLabel, setActiveLabel] = useState(0);
   const [message, setMessage] = useState("");
   const defaultLabel = useRef(0);
-  const keyRef = useRef(0);
+  const keyRef = useRef(-1);
   const labelList = useRef(Array(Math.ceil(fps * duration)).fill(0));
   useEffect(() => {
     labelList.current = Array(Math.ceil(fps * duration)).fill(0);
@@ -71,7 +71,7 @@ function App() {
     }
     if (event.code !== keyPressed) return;
     setKeyPressed("");
-    keyRef.current = 0;
+    keyRef.current = -1;
     setSpeed(parseFloat(playbackSpeed));
   };
 
@@ -107,7 +107,7 @@ function App() {
     time.current = e.target.currentTime;
     const end = getIndex(time.current, fps);
     const newLabel =
-      keyRef.current === 0 ? defaultLabel.current : keyRef.current;
+      keyRef.current === -1 ? defaultLabel.current : keyRef.current;
     updateLabels(start, end, newLabel);
   };
 
@@ -155,7 +155,7 @@ function App() {
 
   const handleSave = () => {
     function getCSVData(data) {
-      return data.map((e, i) => [i / fps, e === 0 ? "Unlabeled" : labels[e]]);
+      return data.map((e, i) => [i / fps, labels[e]]);
     }
     function downloadCSV(data, filename) {
       function convertToCSV(data) {
@@ -190,7 +190,7 @@ function App() {
     const start = getIndex(time.current, fps);
     const end = labelList.current.length;
     const newLabel =
-      keyRef.current === 0 ? defaultLabel.current : keyRef.current;
+      keyRef.current === -1 ? defaultLabel.current : keyRef.current;
     updateLabels(start, end, newLabel);
   };
 
@@ -240,7 +240,7 @@ function App() {
         <div className="left-inner-container">
           <LabelList
             selected={activeLabel}
-            active={keyPressed === "" ? activeLabel : keyRef.current}
+            active={(keyPressed === "" || keyRef.current !== -1) ? activeLabel : keyRef.current}
             editing={editing}
             labels={labels}
             onChangeLabel={handleChangeLabel}

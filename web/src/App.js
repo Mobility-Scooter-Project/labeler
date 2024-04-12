@@ -41,6 +41,8 @@ function App() {
   const labelList = useRef(Array(Math.ceil(fps * duration)).fill(0));
   useEffect(() => {
     labelList.current = Array(Math.ceil(fps * duration)).fill(0);
+    setColorList(Array(colorLength).fill(colors[0]));
+    console.log("Setting labelList to " + fps*duration + " frames")
   }, [fps, duration]);
 
   const time = useRef(0);
@@ -153,6 +155,7 @@ function App() {
       return !e;
     });
 
+
   const handleSave = () => {
     function getCSVData(data) {
       return data.map((e, i) => [i / fps, labels[e]]);
@@ -182,6 +185,26 @@ function App() {
         }
       }
     }
+    const validate = () => {
+      const expected = Array(colorLength).fill(colors[0]);
+      for (let i = 0; i < labelList.current.length; i++) {
+        expected[Math.floor((i * colorLength) / labelList.current.length)] = colors[labelList.current[i]];
+      }
+      for (let i = 1; i < colorLength - 1; i++) {
+        if (
+          expected[i] !== colorList[i - 1] &&
+          expected[i] !== colorList[i + 1] &&
+          expected[i] !== colorList[i]
+        ) {
+          const ERROR_MESSAGE = 'Color and labels not match, please contact developer for help!';
+          const color2label = colors.reduce((obj, item, index) => ({ ...obj, [item]: index }), {});
+          downloadCSV(expected.map((_, i) => [color2label[expected[i]], color2label[colorList[i]]]))
+          alert(ERROR_MESSAGE);
+          throw Error(ERROR_MESSAGE);
+        }
+      }
+    }
+    validate();
     downloadCSV(getCSVData(labelList.current), `${video}.csv`);
   };
 

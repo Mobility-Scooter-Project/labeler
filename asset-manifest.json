@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/labeler/static/css/main.abea8f09.css",
-    "main.js": "/labeler/static/js/main.01ff4094.js",
+    "main.js": "/labeler/static/js/main.89f6150e.js",
     "static/js/453.c5eaf93b.chunk.js": "/labeler/static/js/453.c5eaf93b.chunk.js",
     "index.html": "/labeler/index.html",
     "main.abea8f09.css.map": "/labeler/static/css/main.abea8f09.css.map",
-    "main.01ff4094.js.map": "/labeler/static/js/main.01ff4094.js.map",
+    "main.89f6150e.js.map": "/labeler/static/js/main.89f6150e.js.map",
     "453.c5eaf93b.chunk.js.map": "/labeler/static/js/453.c5eaf93b.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.abea8f09.css",
-    "static/js/main.01ff4094.js"
+    "static/js/main.89f6150e.js"
   ]
 }

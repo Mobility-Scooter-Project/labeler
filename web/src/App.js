@@ -5,6 +5,7 @@ import LabelList from "./components/LabelList";
 import { colors } from "./colors";
 import ScooterIcon from "./components/ScooterIcon";
 import Selection from "./components/Selection";
+import { VERSION } from "./version";
 
 const colorLength = 400;
 
@@ -38,14 +39,18 @@ function App() {
   const [message, setMessage] = useState("");
   const defaultLabel = useRef(0);
   const keyRef = useRef(-1);
-  const labelList = useRef(Array(Math.ceil(fps * duration)).fill(0));
+  const fpsRef = useRef(30);
+  const labelList = useRef([]);
   useEffect(() => {
-    labelList.current = Array(Math.ceil(fps * duration)).fill(0);
+    if (labelList.current) return;
+    labelList.current = Array(Math.floor(fpsRef.current * duration)).fill(0);
     setColorList(Array(colorLength).fill(colors[0]));
     console.log(
-      "Setting labelList to " + Math.ceil(fps * duration) + " frames"
+      "Setting labelList to " +
+        Math.floor(fpsRef.current * duration) +
+        " frames"
     );
-  }, [fps, duration]);
+  }, [duration]);
 
   const time = useRef(0);
 
@@ -79,12 +84,44 @@ function App() {
     setSpeed(parseFloat(playbackSpeed));
   };
 
+  const handleFPSChange = (value) => {
+    setFPS(value);
+    const prevFPS = fpsRef.current;
+    let prev = labelList.current[0];
+    const compressed_labels = [[0, prev]];
+    for (let i = 1; i < labelList.current.length; i++) {
+      if (prev !== labelList.current[i]) {
+        prev = labelList.current[i];
+        compressed_labels.push([Math.floor((i * value) / prevFPS), prev]);
+      }
+    }
+    const new_length = Math.floor((labelList.current.length * value) / prevFPS);
+    compressed_labels.push([new_length, 0]);
+    const newLabelList = Array(new_length).fill(0);
+    for (let i = 0; i < compressed_labels.length - 1; i++) {
+      const start = Math.floor(compressed_labels[i][0]);
+      const end = Math.floor(compressed_labels[i + 1][0]);
+      const label = compressed_labels[i][1];
+      for (let j = start; j < end; j++) {
+        newLabelList[j] = label;
+      }
+    }
+    labelList.current = newLabelList;
+    fpsRef.current = value;
+    console.log(
+      "Resizing labelList to " +
+        Math.floor(fpsRef.current * duration) +
+        " frames"
+    );
+  };
+
   const handleFileChange = (event) => {
     if (event.target.files.length === 0) return;
     const file = event.target.files[0];
     const objectURL = URL.createObjectURL(file);
     setVideo(file.name);
     setSource(objectURL);
+    labelList.current = null;
   };
 
   const updateLabels = (start, end, label) => {
@@ -107,9 +144,9 @@ function App() {
   };
 
   const handleProgress = (e) => {
-    const start = getIndex(time.current, fps);
+    const start = getIndex(time.current, fpsRef.current);
     time.current = e.target.currentTime;
-    const end = getIndex(time.current, fps);
+    const end = getIndex(time.current, fpsRef.current);
     const newLabel =
       keyRef.current === -1 ? defaultLabel.current : keyRef.current;
     updateLabels(start, end, newLabel);
@@ -159,7 +196,7 @@ function App() {
 
   const handleSave = () => {
     function getCSVData(data) {
-      return data.map((e, i) => [i / fps, labels[e]]);
+      return data.map((e, i) => [i / fpsRef.current, labels[e]]);
     }
     function downloadCSV(data, filename) {
       function convertToCSV(data) {
@@ -204,6 +241,7 @@ function App() {
             (obj, item, index) => ({ ...obj, [item]: index }),
             {}
           );
+          console.log(labelList.current);
           downloadCSV(
             expected.map((_, i) => [
               color2label[expected[i]],
@@ -221,7 +259,7 @@ function App() {
 
   const handleComplete = () => {
     handlePause();
-    const start = getIndex(time.current, fps);
+    const start = getIndex(time.current, fpsRef.current);
     const end = labelList.current.length;
     const newLabel =
       keyRef.current === -1 ? defaultLabel.current : keyRef.current;
@@ -238,17 +276,6 @@ function App() {
     };
   }, [playing, editing, keyPressed, labels, playbackSpeed, focusSpeed]);
 
-  React.useEffect(() => {
-    const handleKeyDown = (event) => {
-      // Check if the space key was pressed
-    };
-    document.addEventListener("keydown", handleKeyDown);
-    // Cleanup function to remove the event listener
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-    };
-  }, []); // Empty dependency array means this effect will only run once, similar to componentDidMount
-
   return (
     <div className="container">
       <div className="title-container">
@@ -257,7 +284,7 @@ function App() {
         </div>
         <div className="title">LABELER</div>
       </div>
-      <div className="version">v0.1.5</div>
+      <div className="version">v{VERSION}</div>
       <div className="left-container">
         <div
           style={{
@@ -305,7 +332,7 @@ function App() {
           onPause={handlePause}
           colors={colorList}
           source={source}
-          fps={parseInt(fps)}
+          fps={30}
           onProgress={handleProgress}
           barColors={colorList}
           onDuration={(d) => setDuration(d)}
@@ -339,7 +366,7 @@ function App() {
             name="FPS"
             defaultValue={fps}
             values={[24, 30, 60]}
-            onSelect={setFPS}
+            onSelect={handleFPSChange}
           />
           <Selection
             key={2}

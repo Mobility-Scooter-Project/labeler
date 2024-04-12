@@ -39,7 +39,7 @@ export function VideoController({
     let total = 0;
     let gradient = "";
 
-    colors.forEach(color => {
+    colors.forEach((color) => {
       const startPos = total;
       const endPos = startPos + 100 / colors.length;
       gradient += `, ${color} ${startPos}%, ${color} ${endPos}%`;
@@ -53,7 +53,7 @@ export function VideoController({
     source && (
       <div style={{ position: "relative" }}>
         <VideoPlayer
-          key={`${source}${fps}`} // force remount when videoSource is changed or fps is changed
+          key={source} // force remount when videoSource is changed
           url={source}
           controls={controls}
           isPlaying={playing}

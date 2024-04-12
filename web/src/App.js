@@ -25,7 +25,7 @@ function App() {
     "Label 4",
   ]);
   const [editing, setEditing] = useState(false);
-  const [fps, setFPS] = useState(30); // has no effect on video playback, but rather the next-frame button
+  const [fps, setFPS] = useState(30);
   const [rotation, setRotation] = useState("0°");
   const [playbackSpeed, setPlaybackSpeed] = useState("1.0");
   const [focusSpeed, setFocusSpeed] = useState("0.5");

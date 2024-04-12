@@ -28,23 +28,18 @@ export function VideoController({
       volume.style.marginLeft = "12px";
       volume.style.maxWidth = "16px";
     }
+    // Reset playback speed
     videoRef.current = document.querySelector(".react-video-player");
     if (videoRef.current) {
       videoRef.current.playbackRate = speed;
     }
-  }, [source]);
-
-  React.useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.playbackRate = speed;
-    }
-  }, [speed]);
+  }, [source, speed]);
 
   const createGradient = () => {
     let total = 0;
     let gradient = "";
 
-    colors.forEach((color, index) => {
+    colors.forEach(color => {
       const startPos = total;
       const endPos = startPos + 100 / colors.length;
       gradient += `, ${color} ${startPos}%, ${color} ${endPos}%`;

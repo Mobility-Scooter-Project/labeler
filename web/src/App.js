@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useMemo, useState } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { VideoController } from "./components/VideoController";
 import { FaRegEdit } from "react-icons/fa";
 import LabelList from "./components/LabelList";

@@ -14,8 +14,10 @@ jobs:
       with:
         fetch-depth: 0 # Optionally ensure all history is fetched
         persist-credentials: false # This is often necessary with deployments
-        user-name: 'R' # Define the user name used by git commits
-        user-email: 'huangruoqi374@gmail.com' # Define the user email used by git commits
+    - name: Configure Git
+      run: |
+        git config user.name "R"
+        git config user.email "r@gmail.com"
 
     - name: Set up Node.js
       uses: actions/setup-node@v2

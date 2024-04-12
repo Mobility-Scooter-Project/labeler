@@ -11,9 +11,7 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-      with:
-        fetch-depth: 0 # Optionally ensure all history is fetched
-        persist-credentials: false # This is often necessary with deployments
+
     - name: Configure Git
       run: |
         git config user.name "R"

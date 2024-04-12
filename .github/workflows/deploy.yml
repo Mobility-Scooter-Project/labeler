@@ -29,9 +29,8 @@ jobs:
       run: npm install
       working-directory: ./web
 
-    - name: Run Deploy Script
-      run: npm run deploy
+    - name: Build and Deploy
+      run: npx gh-pages -d build -t true --repo https://${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }} --silent
       env:
-        NODE_ENV: production
-        CI: false
+        GH_TOKEN: ${{ secrets.GH_TOKEN }}
       working-directory: ./web

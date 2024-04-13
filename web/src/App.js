@@ -176,7 +176,10 @@ function App() {
   };
 
   const handlePlay = () => {
-    if (!editing && keyPressed === "") {
+    if (editing) {
+      setEditing(false);
+    }
+    if (keyPressed === "") {
       setPlaying(true);
     }
   };

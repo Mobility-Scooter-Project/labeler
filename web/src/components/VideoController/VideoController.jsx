@@ -1,8 +1,10 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import VideoPlayer from "react-video-player-extended";
+import Canvas from "../Canvas";
+import styles from "./VideoController.module.css";
 
-const MAX_WIDTH = 800;
-const MAX_HEIGHT = 550;
+export const MAX_WIDTH = 800;
+export const MAX_HEIGHT = 550;
 
 export function VideoController({
   playing,
@@ -15,13 +17,22 @@ export function VideoController({
   onDuration,
   colors,
   onComplete,
+
+  // Keypoint props
+  points,
+  setPoints,
+  selectedKeypoint,
+  onMarkKeypoint,
+  onErrorMarkedKeypoint,
+  isRemoveKeypoint,
+  onRemoveKeypoint,
 }) {
   const [volume, setVolume] = useState(0.7);
   const [timeStart] = useState(0);
   const controls = ["Play", "Time", "Progress", "Volume", "NextFrame"];
   const videoRef = useRef(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     // Add progress bar when the component mounts
     const volume = document.querySelector(".volume");
     if (volume) {
@@ -48,7 +59,6 @@ export function VideoController({
 
     return `linear-gradient(to right${gradient})`;
   };
-
   return (
     source && (
       <div style={{ position: "relative" }}>
@@ -70,6 +80,22 @@ export function VideoController({
           onVideoPlayingComplete={(props) => onPause() & onComplete()}
           fps={fps}
         />
+        {!playing && (
+          <div
+            className={styles.canvasContainer}
+            style={{ width: MAX_WIDTH, height: MAX_HEIGHT }}
+          >
+            <Canvas
+              points={points}
+              setPoints={setPoints}
+              currentLabel={selectedKeypoint}
+              onMarkKeypoint={onMarkKeypoint}
+              onErrorMarkedKeypoint={onErrorMarkedKeypoint}
+              isRemove={isRemoveKeypoint}
+              onRemoveKeypoint={onRemoveKeypoint}
+            />
+          </div>
+        )}
         <div className="bar" style={{ background: createGradient() }}></div>
       </div>
     )

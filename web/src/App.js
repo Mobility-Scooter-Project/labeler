@@ -1,12 +1,12 @@
 import React, { useRef, useEffect, useState } from "react";
-import { VideoController } from "./components/VideoController";
+import VideoController from "./components/VideoController";
 import { FaRegEdit } from "react-icons/fa";
 import LabelList from "./components/LabelList";
 import { colors } from "./colors";
 import ScooterIcon from "./components/ScooterIcon";
 import Selection from "./components/Selection";
 import { VERSION } from "./version";
-import KeypointList from "./components/KeypointLabel/KeypointLabel";
+import KeypointList from "./components/KeypointLabel";
 import { keypointsIndex } from "./utils/constant";
 
 const colorLength = 400;

@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import { Stage, Layer, Line, Circle, Text } from "react-konva";
-import _flatten from "lodash/flatten";
 import { MAX_HEIGHT, MAX_WIDTH } from "../VideoController/VideoController";
 import {
   colorKeypointByIndexInSkeletonPair,

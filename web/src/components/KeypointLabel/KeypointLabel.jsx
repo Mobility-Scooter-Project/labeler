@@ -3,8 +3,7 @@ import styles from "./KeypointLabel.module.css";
 import clsx from "clsx";
 import tickGreenIcon from "../../assets/tick-green-icon.svg";
 import eraserIcon from "../../assets/cards_school_eraser.svg";
-import { useState } from "react";
-function KeypointList({
+export function KeypointLabel({
   selected,
   marked,
   keypoints = keypointsIndex,
@@ -65,5 +64,3 @@ function KeypointList({
     </div>
   );
 }
-
-export default KeypointList;

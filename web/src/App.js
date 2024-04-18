@@ -1,11 +1,13 @@
 import React, { useRef, useEffect, useState } from "react";
-import { VideoController } from "./components/VideoController";
+import VideoController from "./components/VideoController";
 import { FaRegEdit } from "react-icons/fa";
 import LabelList from "./components/LabelList";
 import { colors } from "./colors";
 import ScooterIcon from "./components/ScooterIcon";
 import Selection from "./components/Selection";
 import { VERSION } from "./version";
+import KeypointList from "./components/KeypointLabel";
+import { keypointsIndex } from "./utils/constant";
 
 const colorLength = 400;
 
@@ -51,7 +53,6 @@ function App() {
         " frames"
     );
   }, [duration]);
-
   const time = useRef(0);
 
   const handleKeyDown = (event) => {
@@ -196,36 +197,36 @@ function App() {
       }
       return !e;
     });
+  const downloadCSV = (data, filename) => {
+    function convertToCSV(data) {
+      const rows = data.map((row) => row.join(","));
+      return rows.join("\n");
+    }
+    const csv = convertToCSV(data);
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
 
-  const handleSave = () => {
+    if (navigator.msSaveBlob) {
+      // For Internet Explorer
+      navigator.msSaveBlob(blob, filename);
+    } else {
+      const link = document.createElement("a");
+      if (link.download !== undefined) {
+        const url = URL.createObjectURL(blob);
+        link.setAttribute("href", url);
+        link.setAttribute("download", filename);
+        link.style.visibility = "hidden";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+      }
+    }
+  };
+  const handleSaveLabel = () => {
     function getCSVData(data) {
       return data.map((e, i) => [i / fpsRef.current, labels[e]]);
     }
-    function downloadCSV(data, filename) {
-      function convertToCSV(data) {
-        const rows = data.map((row) => row.join(","));
-        return rows.join("\n");
-      }
-      const csv = convertToCSV(data);
-      const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
 
-      if (navigator.msSaveBlob) {
-        // For Internet Explorer
-        navigator.msSaveBlob(blob, filename);
-      } else {
-        const link = document.createElement("a");
-        if (link.download !== undefined) {
-          const url = URL.createObjectURL(blob);
-          link.setAttribute("href", url);
-          link.setAttribute("download", filename);
-          link.style.visibility = "hidden";
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-          URL.revokeObjectURL(url);
-        }
-      }
-    }
     const validate = () => {
       const expected = Array(colorLength).fill(colors[0]);
       for (let i = 0; i < labelList.current.length; i++) {
@@ -268,8 +269,41 @@ function App() {
       keyRef.current === -1 ? defaultLabel.current : keyRef.current;
     updateLabels(start, end, newLabel);
   };
+  // Keypoint handling
+  const [points, setPoints] = useState([]);
+  const [selectedKeypoint, setSelectedKeypoint] = useState();
+  const [markedKeypoints, setMarkedKeypoints] = useState([]);
+  const [errorChooseKeypoint, setErrorChooseKeypoint] = useState(false);
+  const [isRemoveKeypoint, setIsRemoveKeypoint] = useState(false);
+  const [keypointData, setKeypointData] = useState([]);
+  const handleSaveKeypoint = () => {
+    const csvHeader = [
+      "Frame",
+      "x0",
+      "y0",
+      "x5",
+      "y5",
+      "x6",
+      "y6",
+      "x7",
+      "y7",
+      "x8",
+      "y8",
+      "x9",
+      "y9",
+      "x10",
+      "y10",
+      "x11",
+      "y11",
+      "x12",
+      "y12",
+    ];
+    keypointData.sort((a, b) => a[0] - b[0]);
 
-  React.useEffect(() => {
+    downloadCSV([[csvHeader], ...keypointData], `${video}-keypoints.csv`);
+  };
+
+  useEffect(() => {
     if (editing) return;
     window.addEventListener("keydown", handleKeyDown);
     window.addEventListener("keyup", handleKeyUp);
@@ -279,6 +313,34 @@ function App() {
     };
   }, [playing, editing, keyPressed, labels, playbackSpeed, focusSpeed]);
 
+  const handleCompleteMarkKeypoint = () => {
+    points.sort((a, b) => a.label - b.label);
+    const pointsCoordinate = [];
+    for (const indexLabel of keypointsIndex) {
+      const firstKeypoint = points.length ? points[0] : null;
+      if (firstKeypoint?.label === indexLabel) {
+        pointsCoordinate.push(firstKeypoint.x, firstKeypoint.y);
+        points.shift();
+      } else {
+        pointsCoordinate.push(-1, -1);
+      }
+    }
+    setKeypointData([
+      ...keypointData,
+      [getIndex(time.current, fps), ...pointsCoordinate],
+    ]);
+    setPoints([]);
+    setSelectedKeypoint(undefined);
+    setMarkedKeypoints([]);
+  };
+  const handleMarkedKeypoint = (key) => {
+    setSelectedKeypoint(undefined);
+    setMarkedKeypoints([...markedKeypoints, key]);
+  };
+  const handleRemoveKeypoint = (key) => {
+    const newMarkedKeypoints = markedKeypoints.filter((k) => k !== key);
+    setMarkedKeypoints(newMarkedKeypoints);
+  };
   return (
     <div className="container">
       <div className="title-container">
@@ -326,6 +388,27 @@ function App() {
         ) : (
           <h1 style={{ marginLeft: "20px" }}>{keyPressed}</h1>
         )}
+
+        {/* Label keypoints for drawing */}
+        <div>
+          <h3 style={{ userSelect: "none" }}>Keypoints</h3>
+          {errorChooseKeypoint && (
+            <div className="error-keypoints">
+              Please choose a keypoint before marking on video!
+            </div>
+          )}
+          <KeypointList
+            onKeypoint={(k) => {
+              setSelectedKeypoint(k);
+              setErrorChooseKeypoint(false);
+            }}
+            selected={selectedKeypoint}
+            marked={markedKeypoints}
+            onComplete={handleCompleteMarkKeypoint}
+            isRemoveKeypoint={isRemoveKeypoint}
+            setIsRemoveKeypoint={setIsRemoveKeypoint}
+          />
+        </div>
       </div>
       <div className="mid-container">
         {message !== "" && <div className="message">{message}</div>}
@@ -341,6 +424,14 @@ function App() {
           onDuration={(d) => setDuration(d)}
           onComplete={handleComplete}
           speed={speed}
+          // Keypoint handler
+          points={points}
+          setPoints={setPoints}
+          selectedKeypoint={selectedKeypoint}
+          onMarkKeypoint={handleMarkedKeypoint}
+          onErrorMarkedKeypoint={() => setErrorChooseKeypoint(true)}
+          isRemoveKeypoint={isRemoveKeypoint}
+          onRemoveKeypoint={handleRemoveKeypoint}
         />
         <div className="mid-input-container">
           <label htmlFor="file-upload" className="file-upload-button">
@@ -355,12 +446,18 @@ function App() {
           />
           <h4>{video}</h4>
           {source !== "" && (
-            <button className="save-btn" onClick={handleSave}>
-              Save labels
-            </button>
+            <>
+              <button className="save-btn" onClick={handleSaveLabel}>
+                Save labels
+              </button>
+              <button className="save-btn" onClick={handleSaveKeypoint}>
+                Save Keypoints
+              </button>
+            </>
           )}
         </div>
       </div>
+
       <div className="right-container">
         <div className="selections-container">
           <h3 style={{ userSelect: "none" }}>Settings</h3>

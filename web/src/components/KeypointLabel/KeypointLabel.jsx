@@ -9,8 +9,8 @@ export function KeypointLabel({
   keypoints = keypointsIndex,
   onKeypoint,
   onComplete,
-  isRemoveKeypoint, 
-  setIsRemoveKeypoint
+  isRemoveKeypoint,
+  setIsRemoveKeypoint,
 }) {
   return (
     <div className={styles.keypointContainer}>
@@ -28,7 +28,10 @@ export function KeypointLabel({
                   ? styles.selected
                   : ""
               )}
-              onClick={() => onKeypoint(value)}
+              onClick={() => {
+                onKeypoint(value);
+                setIsRemoveKeypoint(false);
+              }}
               disabled={isMarked}
             >
               {keypointsText[value]}
@@ -45,7 +48,7 @@ export function KeypointLabel({
       })}
       <div className={styles.keypointController}>
         <button className={styles.completeButton} onClick={onComplete}>
-          Complete
+          Save Current Frame Keypoint
         </button>
         <button
           className={clsx(

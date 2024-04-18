@@ -1,5 +1,21 @@
 export const keypointsIndex = [0, 5, 6, 7, 8, 9, 10, 11, 12];
 
+export const labelKeypointWidth = (text) => {
+  const len = text.length;
+  if (len < 5) {
+    return 30;
+  } else if (len < 9) {
+    return 40;
+  } else if (len < 11) {
+    return 50;
+  } else if (len < 12) {
+    return 60;
+  } else if (len < 14) {
+    return 65;
+  } else {
+    return 75;
+  }
+};
 export const skeletonPair = [
   [0, 5],
   [0, 6],

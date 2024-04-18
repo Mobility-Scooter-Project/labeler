@@ -53,27 +53,6 @@ function App() {
         " frames"
     );
   }, [duration]);
-
-  useEffect(() => {
-    if (editing) return;
-    window.addEventListener("keydown", handleKeyDown);
-    window.addEventListener("keyup", handleKeyUp);
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-      window.removeEventListener("keyup", handleKeyUp);
-    };
-  }, [playing, editing, keyPressed, labels, playbackSpeed, focusSpeed]);
-
-  useEffect(() => {
-    const handleKeyDown = (event) => {
-      // Check if the space key was pressed
-    };
-    document.addEventListener("keydown", handleKeyDown);
-    // Cleanup function to remove the event listener
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-    };
-  }, []); // Empty dependency array means this effect will only run once, similar to componentDidMount
   const time = useRef(0);
 
   const handleKeyDown = (event) => {
@@ -296,8 +275,9 @@ function App() {
   const [markedKeypoints, setMarkedKeypoints] = useState([]);
   const [errorChooseKeypoint, setErrorChooseKeypoint] = useState(false);
   const [isRemoveKeypoint, setIsRemoveKeypoint] = useState(false);
-  const [keypointData, setKeypointData] = useState([
-    [
+  const [keypointData, setKeypointData] = useState([]);
+  const handleSaveKeypoint = () => {
+    const csvHeader = [
       "Frame",
       "x0",
       "y0",
@@ -317,13 +297,13 @@ function App() {
       "y11",
       "x12",
       "y12",
-    ],
-  ]);
-  const handleSaveKeypoint = () => {
-    downloadCSV(keypointData, `${video}-keypoints.csv`);
+    ];
+    keypointData.sort((a, b) => a[0] - b[0]);
+
+    downloadCSV([[csvHeader], ...keypointData], `${video}-keypoints.csv`);
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (editing) return;
     window.addEventListener("keydown", handleKeyDown);
     window.addEventListener("keyup", handleKeyUp);

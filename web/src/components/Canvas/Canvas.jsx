@@ -1,9 +1,19 @@
 import React from "react";
-import { Stage, Layer, Line, Circle, Text } from "react-konva";
+import {
+  Stage,
+  Layer,
+  Line,
+  Circle,
+  Text,
+  Group,
+  Rect,
+  Tag,
+} from "react-konva";
 import { MAX_HEIGHT, MAX_WIDTH } from "../VideoController/VideoController";
 import {
   colorKeypointByIndexInSkeletonPair,
   keypointsText,
+  labelKeypointWidth,
   skeletonPair,
 } from "../../utils/constant";
 
@@ -87,22 +97,26 @@ export const Canvas = ({
   };
 
   return (
-    <Stage
-      width={MAX_WIDTH}
-      height={MAX_HEIGHT}
-      onMouseDown={handleMouseDown}
-    >
+    <Stage width={MAX_WIDTH} height={MAX_HEIGHT} onMouseDown={handleMouseDown}>
       <Layer>
         {renderSkeleton()}
         {points.map((e) => (
           <>
+            <Rect
+              x={e.x - 14}
+              y={e.y - 15}
+              width={labelKeypointWidth(keypointsText[e.label])}
+              height={10}
+              fill={"white"}
+            />
             <Circle radius={CIRCLE_RAD} stroke="#4eff00" x={e.x} y={e.y} />
             <Text
               x={e.x - 10}
               y={e.y - 14}
               text={keypointsText[e.label]}
-              fill="#4eff00"
+              fill="red"
               fontSize={10}
+              fontStyle="bold"
             />
           </>
         ))}

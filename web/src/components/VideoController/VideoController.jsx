@@ -31,7 +31,7 @@ export function VideoController({
   const [timeStart] = useState(0);
   const controls = ["Play", "Time", "Progress", "Volume", "NextFrame"];
   const videoRef = useRef(null);
-
+  
   useEffect(() => {
     // Add progress bar when the component mounts
     const volume = document.querySelector(".volume");

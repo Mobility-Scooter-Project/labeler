@@ -16,8 +16,13 @@ function getIndex(time, fps) {
 }
 
 function App() {
+
+  // const dataLabel = useSelector((state) => state.app?.labelData);
+  // const dataKeypoint = useSelector((state) => state.app?.keypointsData);
+
   const [playing, setPlaying] = useState(false);
   const [video, setVideo] = useState("");
+
   const [duration, setDuration] = useState(0);
   const [source, setSource] = useState("");
   const [labels, setLabels] = useState([
@@ -42,6 +47,9 @@ function App() {
   const defaultLabel = useRef(0);
   const keyRef = useRef(-1);
   const fpsRef = useRef(30);
+
+  // const dispatch = useDispatch();
+
   const labelList = useRef([]);
   useEffect(() => {
     if (labelList.current) return;
@@ -116,13 +124,25 @@ function App() {
     );
   };
 
-  const handleFileChange = (event) => {
+  const handleFileChange = async (event) => {
     if (event.target.files.length === 0) return;
     const file = event.target.files[0];
     const objectURL = URL.createObjectURL(file);
     setVideo(file.name);
     setSource(objectURL);
     labelList.current = null;
+
+    
+    // Reset keypoints data
+    setKeypointData([]);
+    // dispatch(resetKeypoint());
+    time.current = 0;
+
+    setPoints([]);
+    setSelectedKeypoint(null);
+    setMarkedKeypoints([]);
+    setErrorChooseKeypoint(false);
+    setIsRemoveKeypoint(false);
   };
 
   const updateLabels = (start, end, label) => {
@@ -332,6 +352,9 @@ function App() {
     setPoints([]);
     setSelectedKeypoint(undefined);
     setMarkedKeypoints([]);
+
+    // Set local storage payload
+    // dispatch(setKeypointSlice(keypointData));
   };
   const handleMarkedKeypoint = (key) => {
     setSelectedKeypoint(undefined);
@@ -341,6 +364,7 @@ function App() {
     const newMarkedKeypoints = markedKeypoints.filter((k) => k !== key);
     setMarkedKeypoints(newMarkedKeypoints);
   };
+
   return (
     <div className="container">
       <div className="title-container">

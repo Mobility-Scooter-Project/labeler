@@ -1,82 +1,88 @@
 .swayPointContainer {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    padding-left: 20px;
-    padding-right: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding-left: 20px;
+  padding-right: 10px;
 }
 
 
 .timeButtonsColumn {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 
-  .swayPointOption {
-    margin-top: 10px;
-    display: flex;
-    width: 100%;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    height: 30px;
-  }
-  .swayPointButton, .timeButton, .completeButton {
-    border-radius: 5px;
-    padding: 0;
-    width: 150px;
-    font-size: 14px;
-    border: none;
-    height: inherit;
-    text-align: center;
-  }
+.swayPointOption {
+  margin-top: 10px;
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 30px;
+}
 
-  .timeButton{
-    background-color: #D3FDCC;
-  }
-  
-  .completeButton {
-      padding: 8px;
-      width: 80%;
-      background-color: #6497dd;
-  }
+.swayPointButton, .timeButton, .completeButton {
+  border-radius: 5px;
+  padding: 0;
+  width: 155px;
+  font-size: 14px;
+  border: none;
+  height: inherit;
+  text-align: center;
+}
 
-  .swayPointButton:hover, .timeButton:hover, .completeButton:hover{
-    filter: brightness(80%);
-    cursor: pointer;
-  }
+.timeButton{
+  background-color: #D3FDCC;
+}
   
-  .greenTickIcon {
-    width: 10px;
-    height: 10px;
-  }
-  .selected {
-    border: 4px solid #797eb7;
-  }
-  .swayPointController {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    margin-top: 10px;
-  }
-  .eraserIcon {
-    width: 20px;
-    height: 20px;
-  }
+.completeButton {
+  padding: 8px;
+  width: 80%;
+  background-color: #6497dd;
+}
+
+.swayPointButton:hover, .timeButton:hover, .completeButton:hover{
+  filter: brightness(80%);
+  cursor: pointer;
+}
   
-  .eraserButton {
-    padding: 3px;
-    background-color: transparent;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
-    border: 2px solid transparent;
-  }
-  .isEraserActive {
-    border: 2px solid grey;
-    background-color: #6497dd;;
-  }
+.greenTickIcon {
+  width: 10px;
+  height: 10px;
+}
+
+
+.selected {
+  border: 4px solid #797eb7;
+}
+
+.swayPointController {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.eraserIcon {
+  width: 20px;
+  height: 20px;
+}
+
+.eraserButton {
+  padding: 3px;
+  background-color: transparent;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+
+.isEraserActive {
+  border: 2px solid grey;
+  background-color: #6497dd;;
+}

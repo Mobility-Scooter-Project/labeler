@@ -77,7 +77,7 @@ export const swayPointsText = {
   13: "Left Sway - Sternum",
   14: "Left Sway - Umbilicus",
   15: "Right Sway - Sternum",
-  16: "Right Sway - umbilicus",
+  16: "Right Sway - Umbilicus",
 };
 
 export const swaySkeletonPair = [

@@ -431,25 +431,7 @@ function App() {
       "Right_Umbilicus_Y"
     ];
   
-    // Sort sway points by label 
-    // const sortedPoints = [...swayPoints].sort((a, b) => a.label - b.label);
-  
-    // // Extract coordinates in order: left sternum, right sternum, left umbilicus, right umbilicus
-    // const coordinates = [];
-    // for (const point of sortedPoints) {
-    //   coordinates.push(point.x, point.y);
-    // }
-  
-    // // Create data row with start time, end time, and all coordinates
-    // const dataRow = [
-    //   startTime / fps,  // Convert frame number to seconds
-    //   endTime / fps,    // Convert frame number to seconds
-    //   ...coordinates
-    // ];
-  
-    // // Download CSV
-    // downloadCSV([csvHeader, dataRow], `${video}-sway-boundaries.csv`);
-    // Prepare all data rows
+    
     const dataRows = swayPointData.map((boundary) => {
       // Sort points by label to ensure consistent order (13-16)
       const sortedPoints = boundary.points.sort((a, b) => a.label - b.label);

@@ -90,5 +90,5 @@ export const colorSwayPointByIndexInSkeletonPair = (pairIndex) => {
   if(pairIndex === 0){
     return "red";
   }
-  return "#000000";
+  return "green";
 };

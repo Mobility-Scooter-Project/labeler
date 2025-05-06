@@ -391,6 +391,11 @@ function App() {
     setMarkedSwayPoints([...markedSwayPoints, key]);
   };
 
+  const handleRemoveSwayPoint = (key) => {
+    const newMarkedSwayPoints = markedSwayPoints.filter((k) => k !== key);
+    setMarkedSwayPoints(newMarkedSwayPoints);
+  };
+
   return (
     <div className="container">
       <div className="title-container">
@@ -489,6 +494,7 @@ function App() {
           selectedSwayPoint={selectedSwayPoint}
           onMarkSwayPoint={handleMarkedSwayPoint}
           isRemoveSwayPoint={isRemoveSwayPoint}
+          onRemoveSwayPoint={handleRemoveSwayPoint}
 
         />
         <div className="mid-input-container">

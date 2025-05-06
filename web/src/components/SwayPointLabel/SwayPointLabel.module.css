@@ -7,61 +7,76 @@
     padding-right: 10px;
 }
 
-.timeContainer{
-    margin-top: 10px;
+
+.timeButtonsColumn {
     display: flex;
-    flex-direction: column; /* Stack buttons vertically */
-    gap: 10px; /* Adds spacing between buttons */
+    flex-direction: column;
     width: 100%;
-    height: 70px;
-    align-items: center; /* Align buttons to the left (optional) */
 }
 
 
-.swayPointButton, .completeButton {
+  .swayPointOption {
+    margin-top: 10px;
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    height: 30px;
+  }
+  .swayPointButton, .timeButton, .completeButton {
     border-radius: 5px;
     padding: 0;
-    width: 168px;
+    width: 160px;
     font-size: 14px;
     border: none;
     height: inherit;
     text-align: center;
-}
+  }
 
-.swayPointButton:hover, .completeButton:hover{
+  .timeButton{
+    background-color: #D3FDCC;
+  }
+  
+  .completeButton {
+      padding: 8px;
+      width: 80%;
+      background-color: #6497dd;
+  }
+
+  .swayPointButton:hover,timeButton:hover, .completeButton:hover{
     filter: brightness(80%);
     cursor: pointer;
   }
-
-.completeButton {
-    padding: 8px;
-    width: 80%;
-    background-color: #6497dd;
-}
-
-.swayPointController{
+  
+  .greenTickIcon {
+    width: 10px;
+    height: 10px;
+  }
+  .selected {
+    border: 4px solid #797eb7;
+  }
+  .swayPointController {
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
     align-items: center;
     width: 100%;
     margin-top: 10px;
-}
-
-.eraserIcon {
+  }
+  .eraserIcon {
     width: 20px;
     height: 20px;
-}
+  }
   
-.eraserButton {
-padding: 3px;
-background-color: transparent;
-border-radius: 5px;
-border: none;
-cursor: pointer;
-border: 2px solid transparent;
-}
-.isEraserActive {
-border: 2px solid grey;
-background-color: #6497dd;;
-}
+  .eraserButton {
+    padding: 3px;
+    background-color: transparent;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    border: 2px solid transparent;
+  }
+  .isEraserActive {
+    border: 2px solid grey;
+    background-color: #6497dd;;
+  }

@@ -32,6 +32,7 @@ export function VideoController({
   setSwayPoints,
   selectedSwayPoint,
   onMarkSwayPoint,
+  isRemoveSwayPoint,
 }) {
   const [volume, setVolume] = useState(0.7);
   const [timeStart] = useState(0);
@@ -104,6 +105,7 @@ export function VideoController({
               setSwayPoints={setSwayPoints}
               currentSwayLabel={selectedSwayPoint}
               onMarkSwayPoint={onMarkSwayPoint}
+              isRemoveSwayPoint={isRemoveSwayPoint}
             />
           </div>
         )}

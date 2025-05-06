@@ -144,6 +144,12 @@ function App() {
     setMarkedKeypoints([]);
     setErrorChooseKeypoint(false);
     setIsRemoveKeypoint(false);
+
+    //sway
+    setSwayPoints([]);
+    setSelectedSwayPoint(null);
+    setMarkedSwayPoints([]);
+    setIsRemoveSwayPoint(false);
   };
 
   const updateLabels = (start, end, label) => {
@@ -370,6 +376,7 @@ function App() {
   const [swayPoints, setSwayPoints] = useState([]);
   const [selectedSwayPoint, setSelectedSwayPoint] = useState();
   const [markedSwayPoints, setMarkedSwayPoints] = useState([]);
+  const [isRemoveSwayPoint, setIsRemoveSwayPoint] = useState(false);
   // TODO: NEED TO IMPLEMENT
   const handleCompleteMarkSwayPoint = () => {
 
@@ -481,6 +488,8 @@ function App() {
           setSwayPoints={setSwayPoints}
           selectedSwayPoint={selectedSwayPoint}
           onMarkSwayPoint={handleMarkedSwayPoint}
+          isRemoveSwayPoint={isRemoveSwayPoint}
+
         />
         <div className="mid-input-container">
           <label htmlFor="file-upload" className="file-upload-button">
@@ -549,9 +558,14 @@ function App() {
         <div>
           <h3 style={{ userSelect: "none" }}>Sway Boundaries</h3>
           <SwayPointLabel 
-              onComplete={handleCompleteMarkSwayPoint}
-              isRemoveKeypoint
-              setIsRemoveKeypoint
+            onSwayPoint={(k) => {
+              setSelectedSwayPoint(k);
+            }}
+            selected={selectedSwayPoint}
+            marked={markedSwayPoints}
+            onComplete={handleCompleteMarkSwayPoint}
+            isRemoveSwayPoint={isRemoveSwayPoint}
+            setIsRemoveSwayPoint={setIsRemoveSwayPoint}
           />
         </div>
       </div>

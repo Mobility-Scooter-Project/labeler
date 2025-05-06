@@ -13,8 +13,10 @@ export const labelKeypointWidth = (text) => {
     return 60;
   } else if (len < 14) {
     return 65;
-  } else {
+  } else if (len < 16){
     return 75;
+  } else{
+    return 115;
   }
 };
 
@@ -72,10 +74,10 @@ export const colorKeypointByIndexInSkeletonPair = (indexInSkeletonPair) => {
 // left sternum, left umbilicus, right sternum, right umbilicus
 export const swayPointsIndex = [13, 14, 15, 16];  
 export const swayPointsText = {
-  13: "left sternum",
-  14: "left umbilicus",
-  15: "right sternum",
-  16: "right umbilicus",
+  13: "Left Sway - Sternum",
+  14: "Left Sway - Umbilicus",
+  15: "Right Sway - Sternum",
+  16: "Right Sway - umbilicus",
 };
 
 export const swaySkeletonPair = [
@@ -85,9 +87,8 @@ export const swaySkeletonPair = [
 
 // maps colors to sway skeleton pairs
 export const colorSwayPointByIndexInSkeletonPair = (pairIndex) => {
-  switch (pairIndex) {
-    case 0: case 1: return "#FFA500";  // Orange 
-    case 2: case 3: return "#000000";  // Black 
-    default: return null;
+  if(pairIndex === 0){
+    return "red";
   }
+  return "#000000";
 };

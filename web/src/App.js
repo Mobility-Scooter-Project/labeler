@@ -8,6 +8,7 @@ import Selection from "./components/Selection";
 import { VERSION } from "./version";
 import KeypointList from "./components/KeypointLabel";
 import { keypointsIndex } from "./utils/constant";
+import { SwayPointLabel } from "./components/SwayPointLabel/SwayPointLabel";
 
 const colorLength = 400;
 
@@ -365,6 +366,24 @@ function App() {
     setMarkedKeypoints(newMarkedKeypoints);
   };
 
+  // Sway Point 
+  const [swayPoints, setSwayPoints] = useState([]);
+  const [selectedSwayPoint, setSelectedSwayPoint] = useState();
+  const [markedSwayPoints, setMarkedSwayPoints] = useState([]);
+  // TODO: NEED TO IMPLEMENT
+  const handleCompleteMarkSwayPoint = () => {
+
+  }; 
+
+  const handleSaveSwayPoint = () => {
+
+  };
+
+  const handleMarkedSwayPoint = (key) => {
+    setSelectedSwayPoint(undefined)
+    setMarkedSwayPoints([...markedSwayPoints, key]);
+  };
+
   return (
     <div className="container">
       <div className="title-container">
@@ -456,6 +475,12 @@ function App() {
           onErrorMarkedKeypoint={() => setErrorChooseKeypoint(true)}
           isRemoveKeypoint={isRemoveKeypoint}
           onRemoveKeypoint={handleRemoveKeypoint}
+
+          //Swaypoint handler
+          swayPoints={swayPoints}
+          setSwayPoints={setSwayPoints}
+          selectedSwayPoint={selectedSwayPoint}
+          onMarkSwayPoint={handleMarkedSwayPoint}
         />
         <div className="mid-input-container">
           <label htmlFor="file-upload" className="file-upload-button">
@@ -476,6 +501,9 @@ function App() {
               </button>
               <button className="save-btn" onClick={handleSaveKeypoint}>
                 Save Keypoints
+              </button>
+              <button className="save-btn" onClick={handleSaveSwayPoint}>
+                Save Sway Boundaries
               </button>
             </>
           )}
@@ -516,6 +544,16 @@ function App() {
         </div>
         <div className="hint">Rotation is under construction...</div>
         <div className="hint">Don't refresh midway, no cache yet</div>
+        
+        {/* Sway Boundaries Labeling */}
+        <div>
+          <h3 style={{ userSelect: "none" }}>Sway Boundaries</h3>
+          <SwayPointLabel 
+              onComplete={handleCompleteMarkSwayPoint}
+              isRemoveKeypoint
+              setIsRemoveKeypoint
+          />
+        </div>
       </div>
     </div>
   );

@@ -26,6 +26,12 @@ export function VideoController({
   onErrorMarkedKeypoint,
   isRemoveKeypoint,
   onRemoveKeypoint,
+
+  // Sway point
+  swayPoints,
+  setSwayPoints,
+  selectedSwayPoint,
+  onMarkSwayPoint,
 }) {
   const [volume, setVolume] = useState(0.7);
   const [timeStart] = useState(0);
@@ -93,6 +99,11 @@ export function VideoController({
               onErrorMarkedKeypoint={onErrorMarkedKeypoint}
               isRemove={isRemoveKeypoint}
               onRemoveKeypoint={onRemoveKeypoint}
+              //sway
+              swayPoints={swayPoints}
+              setSwayPoints={setSwayPoints}
+              currentSwayLabel={selectedSwayPoint}
+              onMarkSwayPoint={onMarkSwayPoint}
             />
           </div>
         )}

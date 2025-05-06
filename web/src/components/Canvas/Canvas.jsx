@@ -15,6 +15,9 @@ import {
   keypointsText,
   labelKeypointWidth,
   skeletonPair,
+  swayPointsText,
+  swaySkeletonPair,
+  colorSwayPointByIndexInSkeletonPair,
 } from "../../utils/constant";
 
 const CIRCLE_RAD = 4;
@@ -27,6 +30,12 @@ export const Canvas = ({
   onMarkKeypoint,
   onRemoveKeypoint,
   onErrorMarkedKeypoint,
+  
+  //sway
+  swayPoints,
+  setSwayPoints,
+  currentSwayLabel,
+  onMarkSwayPoint,
 }) => {
   const isInsideCircle = (
     circle_x,
@@ -70,8 +79,19 @@ export const Canvas = ({
       } else {
         onErrorMarkedKeypoint();
       }
+
+      if (currentSwayLabel != null) {
+        if (event.evt.button !== 2 && event.target.getStage()) {
+          setSwayPoints((prevArray) => [
+            ...prevArray,
+            { x: x, y: y, label: currentSwayLabel },
+          ]);
+          onMarkSwayPoint(currentSwayLabel);
+        }
+      } 
     }
   };
+
   const renderSkeleton = () => {
     const lineArray = [];
     skeletonPair.forEach((pair, index) => {
@@ -85,6 +105,22 @@ export const Canvas = ({
         });
       }
     });
+
+    //----------- SWAY -------------
+    swaySkeletonPair.forEach((pair, index) => {
+      const line = swayPoints.filter(
+        (swayPoints) => swayPoints.label === pair[0] || swayPoints.label === pair[1]
+      );
+      if (line.length === 2) {
+        lineArray.push({
+          swayPoints: [line[0].x, line[0].y, line[1].x, line[1].y],
+          color: colorSwayPointByIndexInSkeletonPair(index),
+          dash: [5, 5], // Make sway point connections dashed
+        });
+      }
+    });
+    //----------- SWAY -------------
+
     return lineArray.map((linePoints) => (
       <Line
         points={linePoints.points}
@@ -92,9 +128,21 @@ export const Canvas = ({
         stroke={linePoints.color}
         lineCap="round"
         lineJoin="round"
+        dash={linePoints.dash || []}
       />
     ));
   };
+
+  //----------- SWAY -------------
+  const getLabelText = (label) => {
+    return keypointsText[label] || swayPointsText[label] || "Unknown";
+  };
+
+  const getLabelColor = (label) => {
+    return swayPointsText[label] ? "#FFA500" : "red"; // Orange for sway points, red for keypoints
+  };
+  //----------- SWAY -------------
+
 
   return (
     <Stage width={MAX_WIDTH} height={MAX_HEIGHT} onMouseDown={handleMouseDown}>
@@ -113,8 +161,10 @@ export const Canvas = ({
             <Text
               x={e.x - 10}
               y={e.y - 14}
-              text={keypointsText[e.label]}
-              fill="red"
+              text={getLabelText(e.label)}
+              fill={getLabelColor(e.label)}
+              // text={keypointsText[e.label]}
+              // fill="red"
               fontSize={10}
               fontStyle="bold"
             />

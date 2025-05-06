@@ -12,18 +12,34 @@ export function SwayPointLabel({
     onComplete,
     isRemoveSwayPoint,
     setIsRemoveSwayPoint,
+    onSetStart,
+    onSetEnd,
+    endTimeSet,
 }){
+    // Disable save current sway boundary button 
+    // if all points are not marked OR end time isn't set
+    const isSaveDisabled = marked.length < 4 || !endTimeSet;
+
     return (
         <div className={styles.swayPointContainer}>
             {/* Set time Buttons */}
             <div className={styles.timeButtonsColumn}>
                 <div className={styles.swayPointOption}>
-                    <button type="button" className={styles.timeButton}>
+                    <button 
+                        type="button" 
+                        className={styles.timeButton}
+                        onClick={onSetStart}
+                    >
                         Set Start Time
                     </button>
                 </div>
                 <div className={styles.swayPointOption}>
-                    <button type="button" className={styles.timeButton}>
+                    <button 
+                        type="button" 
+                        className={styles.timeButton}
+                        onClick={onSetEnd}
+                        disabled={marked.length < 4}
+                    >
                         Set End Time
                     </button>
                 </div>
@@ -63,7 +79,11 @@ export function SwayPointLabel({
             })}
             {/* Set save current sway boundary button */}
             <div className={styles.swayPointController}>
-                <button className={styles.completeButton} onClick={onComplete}>
+                <button 
+                    className={styles.completeButton} 
+                    onClick={onComplete}
+                    disabled={isSaveDisabled}
+                >
                 Save Current Sway Boundary
                 </button>
                 <button

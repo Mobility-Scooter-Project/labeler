@@ -27,7 +27,7 @@
   .swayPointButton, .timeButton, .completeButton {
     border-radius: 5px;
     padding: 0;
-    width: 160px;
+    width: 150px;
     font-size: 14px;
     border: none;
     height: inherit;
@@ -44,7 +44,7 @@
       background-color: #6497dd;
   }
 
-  .swayPointButton:hover,timeButton:hover, .completeButton:hover{
+  .swayPointButton:hover, .timeButton:hover, .completeButton:hover{
     filter: brightness(80%);
     cursor: pointer;
   }

@@ -146,6 +146,7 @@ function App() {
     setIsRemoveKeypoint(false);
 
     //sway
+    setSwayPointData([]);
     setSwayPoints([]);
     setSelectedSwayPoint(null);
     setMarkedSwayPoints([]);
@@ -372,19 +373,112 @@ function App() {
     setMarkedKeypoints(newMarkedKeypoints);
   };
 
-  // Sway Point 
+  // Sway point handling
   const [swayPoints, setSwayPoints] = useState([]);
   const [selectedSwayPoint, setSelectedSwayPoint] = useState();
   const [markedSwayPoints, setMarkedSwayPoints] = useState([]);
   const [isRemoveSwayPoint, setIsRemoveSwayPoint] = useState(false);
+  const [swayPointData, setSwayPointData] = useState([]);
+  const [startTime, setStartTime] = useState([]);
+  const [endTime, setEndTime] = useState([]);
+  const [endTimeSet, setEndTimeSet] = useState(false);
+
   // TODO: NEED TO IMPLEMENT
   const handleCompleteMarkSwayPoint = () => {
 
+    if (swayPoints.length !== 4) {
+      setMessage("Please mark all 4 sway points before saving");
+      return;
+    }
+  
+    // Sort points by label
+    const sortedPoints = [...swayPoints].sort((a, b) => a.label - b.label);
+  
+    // Store the data
+    setSwayPointData([
+      ...swayPointData,
+      {
+        startTime: startTime,
+        endTime: endTime,
+        points: sortedPoints
+      }
+    ]);
+    
+    setSwayPoints([]);
+    setSelectedSwayPoint(undefined);
+    setMarkedSwayPoints([]);
+    setEndTimeSet(false); 
+    console.log("The current sway boundary has been saved!!!!");
   }; 
 
-  const handleSaveSwayPoint = () => {
+  const handleSaveSwayBoundaries = () => {
+    if (!swayPointData || swayPointData.length === 0 || !swayPointData[0]?.points) {
+      setMessage("No sway points data available");
+      return;
+    }
+  
+    // Create CSV header
+    const csvHeader = [
+      "StartTime",
+      "EndTime",
+      "Left_Sternum_X", 
+      "Left_Sternum_Y",
+      "Right_Sternum_X",
+      "Right_Sternum_Y",
+      "Left_Umbilicus_X",
+      "Left_Umbilicus_Y",
+      "Right_Umbilicus_X",
+      "Right_Umbilicus_Y"
+    ];
+  
+    // Sort sway points by label 
+    // const sortedPoints = [...swayPoints].sort((a, b) => a.label - b.label);
+  
+    // // Extract coordinates in order: left sternum, right sternum, left umbilicus, right umbilicus
+    // const coordinates = [];
+    // for (const point of sortedPoints) {
+    //   coordinates.push(point.x, point.y);
+    // }
+  
+    // // Create data row with start time, end time, and all coordinates
+    // const dataRow = [
+    //   startTime / fps,  // Convert frame number to seconds
+    //   endTime / fps,    // Convert frame number to seconds
+    //   ...coordinates
+    // ];
+  
+    // // Download CSV
+    // downloadCSV([csvHeader, dataRow], `${video}-sway-boundaries.csv`);
+    // Prepare all data rows
+    const dataRows = swayPointData.map((boundary) => {
+      // Sort points by label to ensure consistent order (13-16)
+      const sortedPoints = boundary.points.sort((a, b) => a.label - b.label);
+      
+      // Extract coordinates in order: left sternum, right sternum, left umbilicus, right umbilicus
+      const coordinates = sortedPoints.flatMap(point => [point.x, point.y]);
 
+      return [
+        boundary.startTime,  
+        boundary.endTime,   
+        ...coordinates
+      ];
+    });
+
+    // Download CSV with header and all data rows
+    downloadCSV([csvHeader, ...dataRows], `${video}-sway-boundaries.csv`);
   };
+
+  const handleSetStart = () => {
+    setStartTime(getIndex(time.current, fpsRef.current));
+  };
+
+  const handleSetEnd = () => {
+    setEndTime(getIndex(time.current, fpsRef.current));
+    setEndTimeSet(true);
+  };
+
+  console.log("start time: ");
+  console.log(startTime);
 
   const handleMarkedSwayPoint = (key) => {
     setSelectedSwayPoint(undefined)
@@ -395,6 +489,10 @@ function App() {
     const newMarkedSwayPoints = markedSwayPoints.filter((k) => k !== key);
     setMarkedSwayPoints(newMarkedSwayPoints);
   };
+
+  console.log(swayPointData);
+  console.log("...");
+  console.log(swayPoints);
 
   return (
     <div className="container">
@@ -495,7 +593,6 @@ function App() {
           onMarkSwayPoint={handleMarkedSwayPoint}
           isRemoveSwayPoint={isRemoveSwayPoint}
           onRemoveSwayPoint={handleRemoveSwayPoint}
-
         />
         <div className="mid-input-container">
           <label htmlFor="file-upload" className="file-upload-button">
@@ -517,7 +614,7 @@ function App() {
               <button className="save-btn" onClick={handleSaveKeypoint}>
                 Save Keypoints
               </button>
-              <button className="save-btn" onClick={handleSaveSwayPoint}>
+              <button className="save-btn" onClick={handleSaveSwayBoundaries}>
                 Save Sway Boundaries
               </button>
             </>
@@ -563,6 +660,7 @@ function App() {
         {/* Sway Boundaries Labeling */}
         <div>
           <h3 style={{ userSelect: "none" }}>Sway Boundaries</h3>
+          <div className="hint">Note: points and timing must be set before saving</div>
           <SwayPointLabel 
             onSwayPoint={(k) => {
               setSelectedSwayPoint(k);
@@ -572,6 +670,9 @@ function App() {
             onComplete={handleCompleteMarkSwayPoint}
             isRemoveSwayPoint={isRemoveSwayPoint}
             setIsRemoveSwayPoint={setIsRemoveSwayPoint}
+            onSetStart={handleSetStart}
+            onSetEnd={handleSetEnd}
+            endTimeSet={endTimeSet}
           />
         </div>
       </div>

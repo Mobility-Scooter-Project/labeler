@@ -1,7 +1,7 @@
 import styles from "./SwayPointLabel.module.css";
 import { swayPointsText, swayPointsIndex } from "../../utils/constant";
 import clsx from "clsx";
-import tickGreenIcon from "../../assets/tick-green-icon.svg";
+import tickGreenIcon from "../../assets/tick-blue-icon.png";
 import eraserIcon from "../../assets/cards_school_eraser.svg";
 
 export function SwayPointLabel({
@@ -14,11 +14,12 @@ export function SwayPointLabel({
     setIsRemoveSwayPoint,
     onSetStart,
     onSetEnd,
-    endTimeSet,
+    timeButtonsClicked,
 }){
     // Disable save current sway boundary button 
     // if all points are not marked OR end time isn't set
-    const isSaveDisabled = marked.length < 4 || !endTimeSet;
+    // const isSaveDisabled = marked.length < 4 || !timeButtonsClicked.end;
+    const isSaveDisabled = !timeButtonsClicked.end;
 
     return (
         <div className={styles.swayPointContainer}>
@@ -27,21 +28,41 @@ export function SwayPointLabel({
                 <div className={styles.swayPointOption}>
                     <button 
                         type="button" 
-                        className={styles.timeButton}
+                        className={clsx(
+                            styles.timeButton,
+                            timeButtonsClicked.start && styles.marked
+                        )}
                         onClick={onSetStart}
                     >
                         Set Start Time
                     </button>
+                    {timeButtonsClicked.start && (
+                        <img
+                            src={tickGreenIcon}
+                            alt="green-tick"
+                            className={styles.greenTickIcon}
+                        />
+                    )}
                 </div>
                 <div className={styles.swayPointOption}>
                     <button 
                         type="button" 
-                        className={styles.timeButton}
+                        className={clsx(
+                            styles.timeButton,
+                            timeButtonsClicked.end && styles.marked
+                        )}
                         onClick={onSetEnd}
                         disabled={marked.length < 4}
                     >
                         Set End Time
                     </button>
+                    {timeButtonsClicked.end && (
+                        <img
+                            src={tickGreenIcon}
+                            alt="green-tick"
+                            className={styles.greenTickIcon}
+                        />
+                    )}
                 </div>
             </div>
             {/* Set left and right boundary buttons */}
@@ -63,7 +84,7 @@ export function SwayPointLabel({
                         onSwayPoint(value);
                         setIsRemoveSwayPoint(false);
                     }}
-                    disabled={isMarked}
+                    disabled={isMarked || !timeButtonsClicked.start}
                     >
                     {swayPointsText[value]}
                     </button>
@@ -103,3 +124,4 @@ export function SwayPointLabel({
         </div>
     );
 }
+

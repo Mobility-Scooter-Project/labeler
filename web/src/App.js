@@ -151,6 +151,10 @@ function App() {
     setSelectedSwayPoint(null);
     setMarkedSwayPoints([]);
     setIsRemoveSwayPoint(false);
+    setTimeButtonsClicked({
+      start: false,
+      end: false
+    });
   };
 
   const updateLabels = (start, end, label) => {
@@ -381,7 +385,10 @@ function App() {
   const [swayPointData, setSwayPointData] = useState([]);
   const [startTime, setStartTime] = useState([]);
   const [endTime, setEndTime] = useState([]);
-  const [endTimeSet, setEndTimeSet] = useState(false);
+  const [timeButtonsClicked, setTimeButtonsClicked] = useState({
+    start: false,
+    end: false
+  });
 
   // TODO: NEED TO IMPLEMENT
   const handleCompleteMarkSwayPoint = () => {
@@ -407,7 +414,10 @@ function App() {
     setSwayPoints([]);
     setSelectedSwayPoint(undefined);
     setMarkedSwayPoints([]);
-    setEndTimeSet(false); 
+    setTimeButtonsClicked({
+      start: false,
+      end: false
+    });
     console.log("The current sway boundary has been saved!!!!");
   }; 
 
@@ -452,11 +462,12 @@ function App() {
 
   const handleSetStart = () => {
     setStartTime(getIndex(time.current, fpsRef.current));
+    setTimeButtonsClicked(prev => ({...prev, start: true}));
   };
 
   const handleSetEnd = () => {
     setEndTime(getIndex(time.current, fpsRef.current));
-    setEndTimeSet(true);
+    setTimeButtonsClicked(prev => ({...prev, end: true}));
   };
 
   console.log("start time: ");
@@ -641,8 +652,22 @@ function App() {
         
         {/* Sway Boundaries Labeling */}
         <div>
-          <h3 style={{ userSelect: "none" }}>Sway Boundaries</h3>
-          <div className="hint">Note: points and timing must be set before saving</div>
+          <h3 style={{ userSelect: "none"}}>Sway Boundaries</h3>
+          {/* <div className="hint">Note: points and timing must be set before saving</div> */}
+          <div className="sway-hint">  
+            <p>  
+              <strong>Step 1:</strong> Click  
+                <button className="demo-btn">
+                  Set Start Time
+                </button> to begin
+            </p>
+            <p>  
+              <strong>Step 2:</strong> All 6 points and timing must be set before saving
+            </p> 
+            <p>  
+              <strong>Step 3:</strong> Export data with "Save Sway Boundaries"
+            </p>
+          </div>
           <SwayPointLabel 
             onSwayPoint={(k) => {
               setSelectedSwayPoint(k);
@@ -654,7 +679,7 @@ function App() {
             setIsRemoveSwayPoint={setIsRemoveSwayPoint}
             onSetStart={handleSetStart}
             onSetEnd={handleSetEnd}
-            endTimeSet={endTimeSet}
+            timeButtonsClicked={timeButtonsClicked}
           />
         </div>
       </div>
@@ -663,3 +688,4 @@ function App() {
 }
 
 export default App;
+

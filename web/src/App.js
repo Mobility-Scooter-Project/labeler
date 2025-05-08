@@ -423,7 +423,7 @@ function App() {
 
   const handleSaveSwayBoundaries = () => {
     if (!swayPointData || swayPointData.length === 0 || !swayPointData[0]?.points) {
-      setMessage("No sway boundary data available");
+      setMessage("Export failed: Please save boundaries before exporting");
       
       // Clear message after 3 seconds
       setTimeout(() => {
@@ -488,14 +488,10 @@ function App() {
   };
 
   const handleRemoveSwayPoint = (key) => {
-    // const newMarkedSwayPoints = markedSwayPoints.filter((k) => k !== key);
-    // setMarkedSwayPoints(newMarkedSwayPoints);
-    // setTimeButtonsClicked(prev => ({...prev, end: false}));
-    // If key is an array (multiple points deleted), remove all
-    if (Array.isArray(key)) {
+    if (Array.isArray(key)) { // handle multiple overlaping sway points being removed
       setMarkedSwayPoints(prev => prev.filter(k => !key.includes(k)));
     } 
-    // If single point deleted
+    // If single sway point removed
     else {
       setMarkedSwayPoints(prev => prev.filter(k => k !== key));
     }
@@ -608,7 +604,7 @@ function App() {
         />
         <div className="mid-input-container">
           <label htmlFor="file-upload" className="file-upload-button">
-            Choose Video
+            Upload Video
           </label>
           <input
             id="file-upload"
@@ -686,7 +682,6 @@ function App() {
         {/* Sway Boundaries Labeling */}
         <div>
           <h3 style={{ userSelect: "none"}}>Sway Boundaries</h3>
-          {/* <div className="hint">Note: points and timing must be set before saving</div> */}
           <div className="sway-hint">  
             <p>  
               <strong>Tooltip:</strong> Click  

@@ -68,7 +68,9 @@ After labeling all desired frames of the video, you can hit button "Save labels"
 
 The CSV file would look like this:
 
-![](../docs/images/keypointCSV.png)
+![](../docs/images/keyointCSV.png)
+
+
 
 ##### *Explaination*
 
@@ -98,4 +100,90 @@ Digit of (x<sub>n</sub>,y<sub>n</sub>) where n follows the following notation:
 | 11  | left hip  |
 | 12  | right hip  |
 
+### Step 4: Sway Boundary Labeling
+![](../docs/images/sway-boundaries.png)
 
+#### Mark sway boundaries
+
+1. ##### Set Time Boundaries
+   - Click <kbd>Set Start Time</kbd> at the beginning of the sway motion
+   - Click <kbd>Set End Time</kbd> at the completion of marking all 6 sway positions
+
+2. ##### Mark Sway Positions
+   Place all 6 required points:
+   - **Left Sway** 
+     - Sternum (upper torso)
+     - Umbilicus (lower torso)
+   - **Right Sway**:
+     - Sternum (upper torso)
+     - Umbilicus (lower torso)
+   - **Neutral Position**:
+     - Sternum (center)
+     - Umbilicus (center)
+
+3. ##### Save Boundary Set 
+   Click <kbd>Save Current Sway Boundary</kbd> to store the data
+
+4. ##### Export Data 
+   - Click the dropdown <kbd>Export Annotation Data</kbd>
+   - Select <kbd>Export Sway Boundaries Data</kbd>
+
+### Visual Guide
+![Sway Boundary Marking Demo](docs/videos/sway-boundary.gif)
+
+### Tips
+- Sway points turn green when successfully marked
+- Use the eraser tool to correct misplaced sway points
+- You must mark all 6 points and end time before saving
+- Multiple boundary sets can be saved per video
+![](../docs/videos/sway-boundary.gif)
+
+#### Sway Boundary Features:
+✔ **Visual Feedback System**
+- Real-time display of marked points with coordinate labels
+- Color-coded indicators (Left: Blue, Right: Green, Neutral: Red)
+- Completion checkmarks for finished points
+
+✏ **Smart Editing with Eraser Tool**
+- Precision eraser for individual points
+- Bulk delete for overlapping markers
+
+
+✅ **Validation System**
+- Enforces complete boundary sets:
+  - 2 Left sway positions (sternum/umbilicus)
+  - 2 Right sway positions (sternum/umbilicus)
+  - 2 Neutral positions (sternum/umbilicus)
+- Requires valid time boundaries
+
+#### Export sway boundaries
+Click "Export Annotation Data" to save sway boundaries data to a CSV file with:
+- Start/End timestamps
+- All 6 point boundary with x and y coordinates
+
+![](../docs/images/exportSwayData.png)
+
+
+## Data Export Formats
+
+### Sway Points CSV Format:
+
+| Start_Time | End_Time | Left_Sternum_X | Left_Sternum_Y | Left_Umbilicus_X | Left_Umbilicus_Y | Right_Sternum_X | Right_Sternum_Y | Right_Umbilicus_X | Right_Umbilicus_Y | Neutral_Sternum_X | Neutral_Sternum_Y | Neutral_Umbilicus_X | Neutral_Umbilicus_Y |
+|-----------|---------|----------------|----------------|------------------|------------------|-----------------|-----------------|-------------------|-------------------|-------------------|-------------------|---------------------|---------------------|
+| 655       | 1276    | 454.5          | 197            | 461.5            | 381              | 403.5           | 210             | 471.5             | 391               | 437.5             | 218               | 465.5               | 390                 |
+| 2979       | 4586    | 432.5          | 194            | 427.5            | 392              | 407.5          | 197             | 467.5             | 400               | 464.5             | 209               | 476.5               | 409                 |
+
+
+**Coordinate System:** Origin (0,0) at top-left corner
+
+
+## Troubleshooting
+![](../docs/images/exportSwayDataError.png)
+- If you see the above error message "Export failed: Please save boundaries before exporting", this means:
+    - You haven't saved any sway boundaries yet
+    - First complete and save at least one sway boundary before exporting
+
+- Before saving each sway boundary, ensure:
+    - Both start and end times are set
+    - All 6 required points are marked (Left, Right, and Neutral sway positions for both sternum and umbilicus)
+    - The green checkmarks appear on all point buttons

@@ -434,8 +434,8 @@ function App() {
   
     // Create CSV header
     const csvHeader = [
-      "StartTime",
-      "EndTime",
+      "Start_Time",
+      "End_Time",
       "Left_Sternum_X", 
       "Left_Sternum_Y",
       "Left_Umbilicus_X",

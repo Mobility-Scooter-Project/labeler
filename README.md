@@ -1,4 +1,10 @@
 # Labeler for video labeling
+
+## Key Features
+- **Frame-by-frame video labeling**
+- **Keypoint annotation**
+- **Displacement sway boundary labeling**
+
 ## Web Version
 https://mobility-scooter-project.github.io/labeler/
 - setup by `npm install` in `./web` folder

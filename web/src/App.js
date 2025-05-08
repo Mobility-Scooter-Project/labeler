@@ -424,6 +424,11 @@ function App() {
   const handleSaveSwayBoundaries = () => {
     if (!swayPointData || swayPointData.length === 0 || !swayPointData[0]?.points) {
       setMessage("No sway boundary data available");
+      
+      // Clear message after 3 seconds
+      setTimeout(() => {
+        setMessage("");
+      }, 3000);
       return;
     }
   

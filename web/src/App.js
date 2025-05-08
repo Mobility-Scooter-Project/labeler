@@ -488,8 +488,17 @@ function App() {
   };
 
   const handleRemoveSwayPoint = (key) => {
-    const newMarkedSwayPoints = markedSwayPoints.filter((k) => k !== key);
-    setMarkedSwayPoints(newMarkedSwayPoints);
+    // const newMarkedSwayPoints = markedSwayPoints.filter((k) => k !== key);
+    // setMarkedSwayPoints(newMarkedSwayPoints);
+    // setTimeButtonsClicked(prev => ({...prev, end: false}));
+    // If key is an array (multiple points deleted), remove all
+    if (Array.isArray(key)) {
+      setMarkedSwayPoints(prev => prev.filter(k => !key.includes(k)));
+    } 
+    // If single point deleted
+    else {
+      setMarkedSwayPoints(prev => prev.filter(k => k !== key));
+    }
     setTimeButtonsClicked(prev => ({...prev, end: false}));
   };
 

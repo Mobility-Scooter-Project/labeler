@@ -89,19 +89,23 @@ export const Canvas = ({
 
     // Handle sway points
     if (isRemoveSwayPoint) {
-      let deletedPoint = null;
+      const deletedPoints = []; //handle multiple close sway points being deleted
       const newPoints = swayPoints.filter((point) => {
-        const { x: x_circle, y: y_circle } = point;
+        const { x: x_circle, y: y_circle, label } = point;
         if (isInsideCircle(x_circle, y_circle, x, y)) {
-          deletedPoint = point;
+          deletedPoints.push(label);
           return false;
         }
         return true;
       });
-      if (deletedPoint) {
-        onRemoveSwayPoint(deletedPoint.label);
+
+      if (deletedPoints.length > 0) {
+        // Remove all corresponding labels from markedSwayPoints
+        deletedPoints.forEach((label) => {
+          onRemoveSwayPoint(label);
+        });
+        setSwayPoints(newPoints);
       }
-      setSwayPoints(newPoints);
     } else {
       if (currentSwayLabel != null) {
         if (event.evt.button !== 2 && event.target.getStage()) {

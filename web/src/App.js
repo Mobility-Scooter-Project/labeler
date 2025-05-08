@@ -393,8 +393,8 @@ function App() {
   // TODO: NEED TO IMPLEMENT
   const handleCompleteMarkSwayPoint = () => {
 
-    if (swayPoints.length !== 4) {
-      setMessage("Please mark all 4 sway points before saving");
+    if (swayPoints.length !== 6) {
+      setMessage("Please mark all 6 sway points before saving");
       return;
     }
   
@@ -423,7 +423,7 @@ function App() {
 
   const handleSaveSwayBoundaries = () => {
     if (!swayPointData || swayPointData.length === 0 || !swayPointData[0]?.points) {
-      setMessage("No sway points data available");
+      setMessage("No sway boundary data available");
       return;
     }
   
@@ -433,12 +433,16 @@ function App() {
       "EndTime",
       "Left_Sternum_X", 
       "Left_Sternum_Y",
-      "Right_Sternum_X",
-      "Right_Sternum_Y",
       "Left_Umbilicus_X",
       "Left_Umbilicus_Y",
+      "Left_Center_X",
+      "Left_Center_Y",
+      "Right_Sternum_X",
+      "Right_Sternum_Y",
       "Right_Umbilicus_X",
-      "Right_Umbilicus_Y"
+      "Right_Umbilicus_Y",
+      "Right_Center_X",
+      "Right_Center_Y"
     ];
   
     
@@ -481,6 +485,7 @@ function App() {
   const handleRemoveSwayPoint = (key) => {
     const newMarkedSwayPoints = markedSwayPoints.filter((k) => k !== key);
     setMarkedSwayPoints(newMarkedSwayPoints);
+    setTimeButtonsClicked(prev => ({...prev, end: false}));
   };
 
   console.log(swayPointData);
@@ -600,18 +605,32 @@ function App() {
           />
           <h4>{video}</h4>
           {source !== "" && (
-            <>
-              <button className="save-btn" onClick={handleSaveLabel}>
-                Save labels
+          <div className="dropdown-container">
+            <button className="dropdown-toggle save-btn">
+              Export Data
+            </button>
+            <div className="dropdown-menu">
+              <button 
+                className="dropdown-item save-btn" 
+                onClick={handleSaveLabel}
+              >
+                Export Labels Data
               </button>
-              <button className="save-btn" onClick={handleSaveKeypoint}>
-                Save Keypoints
+              <button 
+                className="dropdown-item save-btn" 
+                onClick={handleSaveKeypoint}
+              >
+                Export Keypoints Data
               </button>
-              <button className="save-btn" onClick={handleSaveSwayBoundaries}>
-                Save Sway Boundaries
+              <button 
+                className="dropdown-item save-btn" 
+                onClick={handleSaveSwayBoundaries}
+              >
+                Export Sway Boundary Data
               </button>
-            </>
-          )}
+            </div>
+          </div>
+        )}
         </div>
       </div>
 
@@ -656,16 +675,10 @@ function App() {
           {/* <div className="hint">Note: points and timing must be set before saving</div> */}
           <div className="sway-hint">  
             <p>  
-              <strong>Step 1:</strong> Click  
+              <strong>Tooltip:</strong> Click  
                 <button className="demo-btn">
                   Set Start Time
-                </button> to begin
-            </p>
-            <p>  
-              <strong>Step 2:</strong> All 6 points and timing must be set before saving
-            </p> 
-            <p>  
-              <strong>Step 3:</strong> Export data with "Save Sway Boundaries"
+                </button> to begin. All 6 points and timing must be set before saving
             </p>
           </div>
           <SwayPointLabel 

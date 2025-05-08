@@ -72,22 +72,26 @@ export const colorKeypointByIndexInSkeletonPair = (indexInSkeletonPair) => {
 
 // ====================== SWAY POINTS ====================== //
 // left sternum, left umbilicus, right sternum, right umbilicus
-export const swayPointsIndex = [13, 14, 15, 16];  
+export const swayPointsIndex = [13, 14, 15, 16, 17, 18];  
 export const swayPointsText = {
   13: "Left Sway - Sternum",
   14: "Left Sway - Umbilicus",
-  15: "Right Sway - Sternum",
-  16: "Right Sway - Umbilicus",
+  15: "Left Sway - Center",
+  16: "Right Sway - Sternum",
+  17: "Right Sway - Umbilicus",
+  18: "Right Sway - Center",
 };
 
 export const swaySkeletonPair = [
   [13, 14],  // left sternum → left umbilicus
-  [15, 16],  // right sternum → right umbilicus
+  [14, 15],  // left umbilicus → left center
+  [16, 17],  // right sternum → right umbilicus
+  [17, 18],  // right umbilicus → right center
 ];
 
 // maps colors to sway skeleton pairs
 export const colorSwayPointByIndexInSkeletonPair = (pairIndex) => {
-  if(pairIndex === 0){
+  if(pairIndex < 2){
     return "red";
   }
   return "green";

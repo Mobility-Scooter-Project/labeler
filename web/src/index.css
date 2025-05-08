@@ -400,7 +400,7 @@ select:hover {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  min-width: 200px;
+  min-width: 210px;
 }
 
 .dropdown-toggle:hover {

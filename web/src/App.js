@@ -440,14 +440,14 @@ function App() {
       "Left_Sternum_Y",
       "Left_Umbilicus_X",
       "Left_Umbilicus_Y",
-      "Left_Center_X",
-      "Left_Center_Y",
       "Right_Sternum_X",
       "Right_Sternum_Y",
       "Right_Umbilicus_X",
       "Right_Umbilicus_Y",
-      "Right_Center_X",
-      "Right_Center_Y"
+      "Neutral_Sternum_X",
+      "Neutral_Sternum_Y",
+      "Neutral_Umbilicus_X",
+      "Neutral_Umbilicus_Y"
     ];
   
     
@@ -612,7 +612,7 @@ function App() {
           {source !== "" && (
           <div className="dropdown-container">
             <button className="dropdown-toggle save-btn">
-              Export Data
+              Export Annotation Data
             </button>
             <div className="dropdown-menu">
               <button 
@@ -631,7 +631,7 @@ function App() {
                 className="dropdown-item save-btn" 
                 onClick={handleSaveSwayBoundaries}
               >
-                Export Sway Boundary Data
+                Export Sway Boundaries Data
               </button>
             </div>
           </div>

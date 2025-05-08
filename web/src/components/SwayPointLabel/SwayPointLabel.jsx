@@ -105,7 +105,7 @@ export function SwayPointLabel({
                     onClick={onComplete}
                     disabled={isSaveDisabled}
                 >
-                Save Current Sway Data
+                Save Current Sway Boundary
                 </button>
                 <button
                 className={clsx(

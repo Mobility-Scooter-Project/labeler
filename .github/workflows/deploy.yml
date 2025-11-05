@@ -36,8 +36,8 @@ jobs:
         git config user.email ${{ secrets.EMAIL }}
 
     - name: Deploy
-      run: npx gh-pages -d build -t true --repo https://${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}
+      run: npx gh-pages -d build -t true --repo https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
       env:
-        GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         CI: false
       working-directory: ./web

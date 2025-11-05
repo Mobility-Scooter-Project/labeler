@@ -17,7 +17,11 @@ export function VideoController({
   onDuration,
   colors,
   onComplete,
-
+  // Navigation props
+  onFrameBackward,
+  onFrameForward,
+  onSkipBackward5s,
+  onSkipForward5s,
   // Keypoint props
   points,
   setPoints,
@@ -97,6 +101,41 @@ export function VideoController({
           </div>
         )}
         <div className="bar" style={{ background: createGradient() }}></div>
+                {/* Navigation buttons */}
+                <div className={styles.navigationButtons}>
+          <button 
+            className={styles.navButton} 
+            onClick={onSkipBackward5s}
+            disabled={!source}
+            title="Skip backward 5 seconds"
+          >
+            ⏪ 5s
+          </button>
+          <button 
+            className={styles.navButton} 
+            onClick={onFrameBackward}
+            disabled={!source}
+            title="Previous frame"
+          >
+            ⏮ 1
+          </button>
+          <button 
+            className={styles.navButton} 
+            onClick={onFrameForward}
+            disabled={!source}
+            title="Next frame"
+          >
+            ⏭ 1
+          </button>
+          <button 
+            className={styles.navButton} 
+            onClick={onSkipForward5s}
+            disabled={!source}
+            title="Skip forward 5 seconds"
+          >
+            5s ⏩
+          </button>
+        </div>
       </div>
     )
   );

@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/labeler/static/css/main.669931c3.css",
-    "main.js": "/labeler/static/js/main.5b3a99f6.js",
+    "main.css": "/labeler/static/css/main.e122c6a2.css",
+    "main.js": "/labeler/static/js/main.59c56436.js",
     "static/js/453.e5407da2.chunk.js": "/labeler/static/js/453.e5407da2.chunk.js",
     "static/media/cards_school_eraser.svg": "/labeler/static/media/cards_school_eraser.b210bc683eb67e907d2c17ac3086c48e.svg",
     "index.html": "/labeler/index.html",
     "static/media/tick-green-icon.svg": "/labeler/static/media/tick-green-icon.53ee6361178ddddaf6c682bb043fe7af.svg",
-    "main.669931c3.css.map": "/labeler/static/css/main.669931c3.css.map",
-    "main.5b3a99f6.js.map": "/labeler/static/js/main.5b3a99f6.js.map",
+    "main.e122c6a2.css.map": "/labeler/static/css/main.e122c6a2.css.map",
+    "main.59c56436.js.map": "/labeler/static/js/main.59c56436.js.map",
     "453.e5407da2.chunk.js.map": "/labeler/static/js/453.e5407da2.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.669931c3.css",
-    "static/js/main.5b3a99f6.js"
+    "static/css/main.e122c6a2.css",
+    "static/js/main.59c56436.js"
   ]
 }

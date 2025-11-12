@@ -1,4 +1,4 @@
-.keypointContainer {
+.swayPointContainer {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -6,7 +6,16 @@
   padding-left: 20px;
   padding-right: 10px;
 }
-.keypointOption {
+
+
+.timeButtonsColumn {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+
+.swayPointOption {
   margin-top: 10px;
   display: flex;
   width: 100%;
@@ -16,39 +25,49 @@
   height: 30px;
 }
 
-.keypointButton, .completeButton {
+.swayPointButton, .timeButton, .completeButton {
   border-radius: 5px;
   padding: 0;
-  width: 130px;
+  width: 155px;
   font-size: 14px;
   border: none;
   height: inherit;
   text-align: center;
 }
-.completeButton {
-    padding: 8px;
-    width: 80%;
-    background-color: #6497dd;
+
+.timeButton{
+  background-color: #D3FDCC;
 }
-.keypointButton:hover, .completeButton:hover{
+  
+.completeButton {
+  padding: 8px;
+  width: 80%;
+  background-color: #6497dd;
+}
+
+.swayPointButton:hover, .timeButton:hover, .completeButton:hover{
   filter: brightness(80%);
   cursor: pointer;
 }
-
+  
 .greenTickIcon {
   width: 10px;
   height: 10px;
 }
+
+
 .selected {
   border: 4px solid #797eb7;
 }
-.keypointController {
+
+.swayPointController {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
   margin-top: 10px;
 }
+
 .eraserIcon {
   width: 20px;
   height: 20px;
@@ -62,7 +81,8 @@
   cursor: pointer;
   border: 2px solid transparent;
 }
+
 .isEraserActive {
   border: 2px solid grey;
-  background-color: #6497dd;;
+  background-color: #D3FDCC;
 }

@@ -332,6 +332,24 @@ function App() {
       handlePause();
     };
   
+    const handleSkipBackward1s = () => {
+      const video = document.querySelector(".react-video-player");
+      if (!video) return;
+      const newTime = Math.max(0, video.currentTime - 1);
+      video.currentTime = newTime;
+      time.current = newTime;
+      handlePause();
+    };
+  
+    const handleSkipForward1s = () => {
+      const video = document.querySelector(".react-video-player");
+      if (!video) return;
+      const newTime = Math.min(duration, video.currentTime + 1);
+      video.currentTime = newTime;
+      time.current = newTime;
+      handlePause();
+    };
+  
   // Keypoint handling
   const [points, setPoints] = useState([]);
   const [selectedKeypoint, setSelectedKeypoint] = useState();
@@ -496,6 +514,8 @@ function App() {
           onFrameForward={handleFrameForward}
           onSkipBackward5s={handleSkipBackward5s}
           onSkipForward5s={handleSkipForward5s}
+          onSkipBackward1s={handleSkipBackward1s}
+          onSkipForward1s={handleSkipForward1s}
           duration={duration}
           // Keypoint handler
           points={points}

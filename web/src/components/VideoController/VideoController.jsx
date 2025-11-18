@@ -22,6 +22,8 @@ export function VideoController({
   onFrameForward,
   onSkipBackward5s,
   onSkipForward5s,
+  onSkipBackward1s,
+  onSkipForward1s,
   // Keypoint props
   points,
   setPoints,
@@ -113,6 +115,14 @@ export function VideoController({
           </button>
           <button 
             className={styles.navButton} 
+            onClick={onSkipBackward1s}
+            disabled={!source}
+            title="Skip backward 1 second"
+          >
+            ⏪ 1s
+          </button>
+          <button 
+            className={styles.navButton} 
             onClick={onFrameBackward}
             disabled={!source}
             title="Previous frame"
@@ -126,6 +136,14 @@ export function VideoController({
             title="Next frame"
           >
             ⏭ 1
+          </button>
+          <button 
+            className={styles.navButton} 
+            onClick={onSkipForward1s}
+            disabled={!source}
+            title="Skip forward 1 second"
+          >
+            1s ⏩
           </button>
           <button 
             className={styles.navButton} 

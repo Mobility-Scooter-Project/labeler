@@ -22,7 +22,7 @@ code {
 }
 
 h3 {
-  margin: 5px  !important;
+  margin: 5px;
 }
 
 .inactive {
@@ -147,7 +147,8 @@ h3 {
 }
 
 .right-container h3 {
-  margin: 10px;
+  /* margin: 10px; */
+  margin: 10px 8px 5px 10px;
 }
 
 .file-upload-button {
@@ -337,6 +338,7 @@ select:hover {
   padding: 10px;
   margin: 10px;
 }
+
 .selections-container h3 {
   margin: 0;
 }
@@ -346,7 +348,7 @@ select:hover {
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
-  margin-top: 10px;
+  margin-top: 7px;
 }
 
 .selection-item div {
@@ -363,4 +365,103 @@ select:hover {
   color: red;
   padding:  0 10px;
   font-size: 12px;
+}
+
+.sway-hint {
+  /* padding: 0px 8px;
+  user-select: none;
+  font-size: 13px; */
+  margin-top: 2px;
+  padding: 0 8px;
+  font-size: 13px;
+}
+
+.sway-hint p {
+  margin: 0;
+}
+
+.demo-btn {  
+  background-color: #D3FDCC;
+  border: 1px solid #ced4da;  
+  padding: 2px 2px;  
+  margin: 5px;
+  border-radius: 4px;  
+  font-size: 13px;
+}  
+
+/* Dropdown Styles to Match Existing Design */
+.dropdown-container {
+  position: relative;
+  display: inline-block;
+  margin: 20px; /* Match your button margin */
+}
+
+.dropdown-toggle {
+  all: unset; /* Reset button styles */
+  background-color: #4c7faf;
+  color: white;
+  padding: 8px 20px;
+  text-align: center;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 210px;
+}
+
+.dropdown-toggle:hover {
+  background-color: #264871; /* Match your button hover */
+}
+
+.dropdown-toggle::after {
+  content: "▼";
+  margin-left: 8px;
+  font-size: 12px;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: #aabdd4; /* Match mid-container bg */
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  z-index: 100;
+  overflow: hidden;
+  display: none;
+}
+
+.dropdown-container:hover .dropdown-menu {
+  display: block;
+}
+
+.dropdown-item {
+  all: unset;
+  display: block;
+  width: 100%;
+  padding: 8px 20px;
+  text-align: left;
+  background-color: transparent;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.15s ease-in-out;
+}
+
+.dropdown-item:hover {
+  background-color: #4c7faf; /* Match your button color */
+}
+
+/* Active state for dropdown */
+.dropdown-container.active .dropdown-toggle::after {
+  content: "▲";
+}
+
+/* For the state-managed version */
+.dropdown-container.active .dropdown-menu {
+  display: block;
 }

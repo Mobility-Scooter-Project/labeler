@@ -15,10 +15,14 @@ import {
   keypointsText,
   labelKeypointWidth,
   skeletonPair,
+  swayPointsText,
+  swaySkeletonPair,
+  colorSwayPointByIndexInSkeletonPair,
 } from "../../utils/constant";
 
 const CIRCLE_RAD = 4;
 const ERROR_TEXT_THRESHOLD = 5;
+
 export const Canvas = ({
   points,
   setPoints,
@@ -27,6 +31,14 @@ export const Canvas = ({
   onMarkKeypoint,
   onRemoveKeypoint,
   onErrorMarkedKeypoint,
+  
+  // sway
+  swayPoints,
+  setSwayPoints,
+  currentSwayLabel,
+  onMarkSwayPoint,
+  isRemoveSwayPoint = false,
+  onRemoveSwayPoint,
 }) => {
   const isInsideCircle = (
     circle_x,
@@ -42,8 +54,11 @@ export const Canvas = ({
       return true;
     else return false;
   };
+
   const handleMouseDown = (event) => {
     const { x, y } = event.target?.getStage()?.getPointerPosition();
+    
+    // Handle keypoints
     if (isRemove) {
       let deletedPoint = null;
       const newPoints = points.filter((point) => {
@@ -71,9 +86,43 @@ export const Canvas = ({
         onErrorMarkedKeypoint();
       }
     }
+
+    // Handle sway points
+    if (isRemoveSwayPoint) {
+      const deletedPoints = []; //handle multiple close sway points being deleted
+      const newPoints = swayPoints.filter((point) => {
+        const { x: x_circle, y: y_circle, label } = point;
+        if (isInsideCircle(x_circle, y_circle, x, y)) {
+          deletedPoints.push(label);
+          return false;
+        }
+        return true;
+      });
+
+      if (deletedPoints.length > 0) {
+        // Remove all corresponding labels from markedSwayPoints
+        deletedPoints.forEach((label) => {
+          onRemoveSwayPoint(label);
+        });
+        setSwayPoints(newPoints);
+      }
+    } else {
+      if (currentSwayLabel != null) {
+        if (event.evt.button !== 2 && event.target.getStage()) {
+          setSwayPoints((prevArray) => [
+            ...prevArray,
+            { x: x, y: y, label: currentSwayLabel },
+          ]);
+          onMarkSwayPoint(currentSwayLabel);
+        }
+      }
+    }
   };
+
   const renderSkeleton = () => {
     const lineArray = [];
+    
+    // Render keypoint skeleton
     skeletonPair.forEach((pair, index) => {
       const line = points.filter(
         (point) => point.label === pair[0] || point.label === pair[1]
@@ -85,23 +134,50 @@ export const Canvas = ({
         });
       }
     });
-    return lineArray.map((linePoints) => (
+
+    // Render sway skeleton
+    swaySkeletonPair.forEach((pair, index) => {
+      const line = swayPoints.filter(
+        (point) => point.label === pair[0] || point.label === pair[1]
+      );
+      if (line.length === 2) {
+        lineArray.push({
+          points: [line[0].x, line[0].y, line[1].x, line[1].y],
+          color: colorSwayPointByIndexInSkeletonPair(index),
+          dash: [5, 5],
+        });
+      }
+    });
+
+    return lineArray.map((linePoints, i) => (
       <Line
+        key={`line-${i}`}
         points={linePoints.points}
         strokeWidth={2}
         stroke={linePoints.color}
         lineCap="round"
         lineJoin="round"
+        dash={linePoints.dash || []}
       />
     ));
+  };
+
+  const getLabelText = (label) => {
+    return keypointsText[label] || swayPointsText[label] || "Unknown";
+  };
+
+  const getLabelColor = (label) => {
+    return swayPointsText[label] ? "green" : "red"; // green for sway points, red for keypoints
   };
 
   return (
     <Stage width={MAX_WIDTH} height={MAX_HEIGHT} onMouseDown={handleMouseDown}>
       <Layer>
         {renderSkeleton()}
-        {points.map((e) => (
-          <>
+        
+        {/* Render keypoints */}
+        {points.map((e, i) => (
+          <Group key={`keypoint-${i}`}>
             <Rect
               x={e.x - 14}
               y={e.y - 15}
@@ -113,12 +189,34 @@ export const Canvas = ({
             <Text
               x={e.x - 10}
               y={e.y - 14}
-              text={keypointsText[e.label]}
-              fill="red"
+              text={getLabelText(e.label)}
+              fill={getLabelColor(e.label)}
               fontSize={10}
               fontStyle="bold"
             />
-          </>
+          </Group>
+        ))}
+        
+        {/* Render sway points */}
+        {swayPoints.map((e, i) => (
+          <Group key={`swaypoint-${i}`}>
+            <Rect
+              x={e.x - 14}
+              y={e.y - 15}
+              width={labelKeypointWidth(swayPointsText[e.label])}
+              height={10}
+              fill={"white"}
+            />
+            <Circle radius={CIRCLE_RAD} stroke="black" x={e.x} y={e.y} />
+            <Text
+              x={e.x - 10}
+              y={e.y - 14}
+              text={getLabelText(e.label)}
+              fill={getLabelColor(e.label)}
+              fontSize={10}
+              fontStyle="bold"
+            />
+          </Group>
         ))}
       </Layer>
     </Stage>

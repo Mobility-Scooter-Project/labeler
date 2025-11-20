@@ -1,5 +1,6 @@
 export const keypointsIndex = [0, 5, 6, 7, 8, 9, 10, 11, 12];
 
+
 export const labelKeypointWidth = (text) => {
   const len = text.length;
   if (len < 5) {
@@ -12,10 +13,13 @@ export const labelKeypointWidth = (text) => {
     return 60;
   } else if (len < 14) {
     return 65;
-  } else {
+  } else if (len < 16){
     return 75;
+  } else{
+    return 115;
   }
 };
+
 export const skeletonPair = [
   [0, 5],
   [0, 6],
@@ -45,6 +49,7 @@ export const keypointsText = {
   12: "right hip",
 };
 
+
 export const colorKeypointByIndexInSkeletonPair = (indexInSkeletonPair) => {
   switch (indexInSkeletonPair) {
     case 0:
@@ -65,18 +70,30 @@ export const colorKeypointByIndexInSkeletonPair = (indexInSkeletonPair) => {
   }
 };
 
-// export const keypointsText = {
-//   nose: 0,
-//   "left eye": 1,
-//   "right eye": 2,
-//   "left ear": 3,
-//   "right ear": 4,
-//   "left shoulder": 5,
-//   "right shoulder": 6,
-//   "left elbow": 7,
-//   "right elbow": 8,
-//   "left wrist": 9,
-//   "right wrist": 10,
-//   "left hip": 11,
-//   "right hip": 12,
-// };
+// ====================== SWAY POINTS ====================== //
+// left sternum, left umbilicus, right sternum, right umbilicus
+export const swayPointsIndex = [13, 14, 15, 16, 17, 18];  
+export const swayPointsText = {
+  13: "Left Sway - Sternum",
+  14: "Left Sway - Umbilicus",
+  15: "Right Sway - Sternum",
+  16: "Right Sway - Umbilicus",
+  17: "Neutral - Sternum",
+  18: "Neutral - Umbilicus",
+};
+
+export const swaySkeletonPair = [
+  [13, 14],  // left sternum → left umbilicus
+  [15, 16],  // right sternum → right umbilicus
+  [17, 18],  // natural sternum → natural umbilicus
+];
+
+// maps colors to sway skeleton pairs
+export const colorSwayPointByIndexInSkeletonPair = (pairIndex) => {
+  if(pairIndex === 0){
+    return "blue";
+  } else if (pairIndex === 1){
+    return "green";
+  }
+  return "red";
+};

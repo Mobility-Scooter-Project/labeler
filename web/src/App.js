@@ -8,6 +8,7 @@ import Selection from "./components/Selection";
 import { VERSION } from "./version";
 import KeypointList from "./components/KeypointLabel";
 import { keypointsIndex } from "./utils/constant";
+import { SwayPointLabel } from "./components/SwayPointLabel/SwayPointLabel";
 
 const colorLength = 400;
 
@@ -143,6 +144,17 @@ function App() {
     setMarkedKeypoints([]);
     setErrorChooseKeypoint(false);
     setIsRemoveKeypoint(false);
+
+    //sway
+    setSwayPointData([]);
+    setSwayPoints([]);
+    setSelectedSwayPoint(null);
+    setMarkedSwayPoints([]);
+    setIsRemoveSwayPoint(false);
+    setTimeButtonsClicked({
+      start: false,
+      end: false
+    });
   };
 
   const updateLabels = (start, end, label) => {
@@ -426,6 +438,131 @@ function App() {
     setMarkedKeypoints(newMarkedKeypoints);
   };
 
+  // Sway point handling
+  const [swayPoints, setSwayPoints] = useState([]);
+  const [selectedSwayPoint, setSelectedSwayPoint] = useState();
+  const [markedSwayPoints, setMarkedSwayPoints] = useState([]);
+  const [isRemoveSwayPoint, setIsRemoveSwayPoint] = useState(false);
+  const [swayPointData, setSwayPointData] = useState([]);
+  const [startTime, setStartTime] = useState([]);
+  const [endTime, setEndTime] = useState([]);
+  const [timeButtonsClicked, setTimeButtonsClicked] = useState({
+    start: false,
+    end: false
+  });
+
+  // TODO: NEED TO IMPLEMENT
+  const handleCompleteMarkSwayPoint = () => {
+
+    if (swayPoints.length !== 6) {
+      setMessage("Please mark all 6 sway points before saving");
+      return;
+    }
+  
+    // Sort points by label
+    const sortedPoints = [...swayPoints].sort((a, b) => a.label - b.label);
+  
+    // Store the data
+    setSwayPointData([
+      ...swayPointData,
+      {
+        startTime: startTime,
+        endTime: endTime,
+        points: sortedPoints
+      }
+    ]);
+    
+    setSwayPoints([]);
+    setSelectedSwayPoint(undefined);
+    setMarkedSwayPoints([]);
+    setTimeButtonsClicked({
+      start: false,
+      end: false
+    });
+    console.log("The current sway boundary has been saved!!!!");
+  }; 
+
+  const handleSaveSwayBoundaries = () => {
+    if (!swayPointData || swayPointData.length === 0 || !swayPointData[0]?.points) {
+      setMessage("Export failed: Please save boundaries before exporting");
+      
+      // Clear message after 3 seconds
+      setTimeout(() => {
+        setMessage("");
+      }, 3000);
+      return;
+    }
+  
+    // Create CSV header
+    const csvHeader = [
+      "Start_Time",
+      "End_Time",
+      "Left_Sternum_X", 
+      "Left_Sternum_Y",
+      "Left_Umbilicus_X",
+      "Left_Umbilicus_Y",
+      "Right_Sternum_X",
+      "Right_Sternum_Y",
+      "Right_Umbilicus_X",
+      "Right_Umbilicus_Y",
+      "Neutral_Sternum_X",
+      "Neutral_Sternum_Y",
+      "Neutral_Umbilicus_X",
+      "Neutral_Umbilicus_Y"
+    ];
+  
+    
+    const dataRows = swayPointData.map((boundary) => {
+      // Sort points by label to ensure consistent order (13-16)
+      const sortedPoints = boundary.points.sort((a, b) => a.label - b.label);
+      
+      // Extract coordinates in order: left sternum, right sternum, left umbilicus, right umbilicus
+      const coordinates = sortedPoints.flatMap(point => [point.x, point.y]);
+
+      return [
+        boundary.startTime,  
+        boundary.endTime,   
+        ...coordinates
+      ];
+    });
+
+    // Download CSV with header and all data rows
+    downloadCSV([csvHeader, ...dataRows], `${video}-sway-boundaries.csv`);
+  };
+
+  const handleSetStart = () => {
+    setStartTime(getIndex(time.current, fpsRef.current));
+    setTimeButtonsClicked(prev => ({...prev, start: true}));
+  };
+
+  const handleSetEnd = () => {
+    setEndTime(getIndex(time.current, fpsRef.current));
+    setTimeButtonsClicked(prev => ({...prev, end: true}));
+  };
+
+  console.log("start time: ");
+  console.log(startTime);
+
+  const handleMarkedSwayPoint = (key) => {
+    setSelectedSwayPoint(undefined)
+    setMarkedSwayPoints([...markedSwayPoints, key]);
+  };
+
+  const handleRemoveSwayPoint = (key) => {
+    if (Array.isArray(key)) { // handle multiple overlaping sway points being removed
+      setMarkedSwayPoints(prev => prev.filter(k => !key.includes(k)));
+    } 
+    // If single sway point removed
+    else {
+      setMarkedSwayPoints(prev => prev.filter(k => k !== key));
+    }
+    setTimeButtonsClicked(prev => ({...prev, end: false}));
+  };
+
+  console.log(swayPointData);
+  console.log("...");
+  console.log(swayPoints);
+
   return (
     <div className="container">
       <div className="title-container">
@@ -525,10 +662,18 @@ function App() {
           onErrorMarkedKeypoint={() => setErrorChooseKeypoint(true)}
           isRemoveKeypoint={isRemoveKeypoint}
           onRemoveKeypoint={handleRemoveKeypoint}
+
+          //Swaypoint handler
+          swayPoints={swayPoints}
+          setSwayPoints={setSwayPoints}
+          selectedSwayPoint={selectedSwayPoint}
+          onMarkSwayPoint={handleMarkedSwayPoint}
+          isRemoveSwayPoint={isRemoveSwayPoint}
+          onRemoveSwayPoint={handleRemoveSwayPoint}
         />
         <div className="mid-input-container">
           <label htmlFor="file-upload" className="file-upload-button">
-            Choose Video
+            Upload Video
           </label>
           <input
             id="file-upload"
@@ -539,15 +684,32 @@ function App() {
           />
           <h4>{video}</h4>
           {source !== "" && (
-            <>
-              <button className="save-btn" onClick={handleSaveLabel}>
-                Save labels
+          <div className="dropdown-container">
+            <button className="dropdown-toggle save-btn">
+              Export Annotation Data
+            </button>
+            <div className="dropdown-menu">
+              <button 
+                className="dropdown-item save-btn" 
+                onClick={handleSaveLabel}
+              >
+                Export Labels Data
               </button>
-              <button className="save-btn" onClick={handleSaveKeypoint}>
-                Save Keypoints
+              <button 
+                className="dropdown-item save-btn" 
+                onClick={handleSaveKeypoint}
+              >
+                Export Keypoints Data
               </button>
-            </>
-          )}
+              <button 
+                className="dropdown-item save-btn" 
+                onClick={handleSaveSwayBoundaries}
+              >
+                Export Sway Boundaries Data
+              </button>
+            </div>
+          </div>
+        )}
         </div>
       </div>
 
@@ -585,9 +747,36 @@ function App() {
         </div>
         <div className="hint">Rotation is under construction...</div>
         <div className="hint">Don't refresh midway, no cache yet</div>
+        
+        {/* Sway Boundaries Labeling */}
+        <div>
+          <h3 style={{ userSelect: "none"}}>Sway Boundaries</h3>
+          <div className="sway-hint">  
+            <p>  
+              <strong>Tooltip:</strong> Click  
+                <button className="demo-btn">
+                  Set Start Time
+                </button> to begin. All 6 points and timing must be set before saving
+            </p>
+          </div>
+          <SwayPointLabel 
+            onSwayPoint={(k) => {
+              setSelectedSwayPoint(k);
+            }}
+            selected={selectedSwayPoint}
+            marked={markedSwayPoints}
+            onComplete={handleCompleteMarkSwayPoint}
+            isRemoveSwayPoint={isRemoveSwayPoint}
+            setIsRemoveSwayPoint={setIsRemoveSwayPoint}
+            onSetStart={handleSetStart}
+            onSetEnd={handleSetEnd}
+            timeButtonsClicked={timeButtonsClicked}
+          />
+        </div>
       </div>
     </div>
   );
 }
 
 export default App;
+
